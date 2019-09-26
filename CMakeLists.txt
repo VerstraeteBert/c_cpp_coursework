@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.14)
+project(exercises C)
+
+set(CMAKE_C_STANDARD 99)
+
+add_executable(oefeningen main.c)
+add_executable(week-1_ex-1 week-1/ex-1.c)
+add_executable(week-1_ex-2 week-1/ex-2.c)
+add_executable(week-1_ex-4 ./week-1/ex-4.c)
+add_executable(week-1_ex-6 ./week-1/ex-6.c)
+add_executable(week-1_ex-7 ./week-1/ex-7.c)
+add_executable(week-1_ex-8 ./week-1/ex-8.c)
+add_executable(week-1_ex-9 ./week-1/ex-9.c)
+add_executable(week-1_ex-10 ./week-1/ex-10.c)
+add_executable(week-1_ex-11 ./week-1/ex-11.c)
