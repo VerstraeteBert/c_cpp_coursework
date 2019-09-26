@@ -19,6 +19,3 @@ int main(){
     pow_pos(10, 10000);
     return(0);
 }
-
-
-

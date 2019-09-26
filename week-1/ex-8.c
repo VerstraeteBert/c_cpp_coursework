@@ -30,7 +30,6 @@ double calc_sin(double rad) {
 }
 
 double randfrom(double min, double max, int decimals) {
-    srand(time(NULL));
     double range = (max - min);
     double div = RAND_MAX / range;
     double random_value = min + (rand() / div);
@@ -39,6 +38,7 @@ double randfrom(double min, double max, int decimals) {
 }
 
 int main() {
+    srand(time(NULL));
     double rad = randfrom(MIN_RAD, MAX_RAD, DECIMALS);
     printf("%f\n", rad);
     printf("%f\n", calc_sin(rad));
