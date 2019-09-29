@@ -11,4 +11,5 @@ for(i=10; i>0; i--){
 }
 ```
 The print statements of "Hello, World!" and "START" should be placed outside of the loop.
-Being inside of the loop, there's a small performance impact, in which the if-statements need to be evaluated during each loop.
+- Both print statements are coupled to a iteration value, while they shouldn't be.
+- Small performance impact, the if-statements need to be evaluated during each loop.
