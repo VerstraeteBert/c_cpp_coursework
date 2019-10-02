@@ -62,5 +62,3 @@ int main() {
     print_second_histo(alpha_occurrences, size);
     return 0;
 }
-
-
