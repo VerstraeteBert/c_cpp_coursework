@@ -11,7 +11,7 @@ char * shift_left(char row [], int size) {
     return row;
 }
 
-void print_row(char row [], int size) {
+void print_row(const char row [], int size) {
     int i;
     for(i = 0; i < size; i++) {
         printf("%c ", row[i]);

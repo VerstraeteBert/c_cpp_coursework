@@ -16,7 +16,7 @@ void process_input(int alpha_occurrences []) {
     }
 }
 
-void print_first_histo (int alpha_occurrences [], int size) {
+void print_first_histo (const int alpha_occurrences [], int size) {
     int i;
     for (i = 0; i < size; i++) {
         printf("%c:\t", (char) (i + 97));

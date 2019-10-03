@@ -12,7 +12,7 @@ void read_matrix(int matrix[][MAX_ROWS], int num_rows, int num_cols) {
     }
 }
 
-void print_matrix (int matrix[][MAX_ROWS], int num_rows, int num_cols) {
+void print_matrix (const int matrix[][MAX_ROWS], int num_rows, int num_cols) {
     int i = 0; int j = 0;
     for (i = 0; i < num_rows; i++) {
         for (j = 0; j < num_cols; j++) {
@@ -33,7 +33,7 @@ void transpose_matrix(int matrix[][MAX_ROWS], int dimension) {
     }
 }
 
-void multiply_matrix(int product[][MAX_ROWS], int matrix_1[][MAX_ROWS], int matrix_2[][MAX_ROWS], int dimension) {
+void multiply_matrix(int product[][MAX_ROWS], const int matrix_1[][MAX_ROWS], const int matrix_2[][MAX_ROWS], int dimension) {
     int accumulator;
     int i; int j; int k;
     for (i = 0; i < dimension; i++) {
