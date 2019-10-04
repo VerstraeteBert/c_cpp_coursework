@@ -1,8 +1,7 @@
 #include <stdio.h>
 
-char * shift_left(char row [], int size) {
-    int i;
-    char temp;
+char * shift_left(char row [], size_t size) {
+    size_t i; char temp;
     for (i = 0; i < size - 1; i++) {
         temp = row[i];
         row[i] = row[i + 1];
@@ -11,8 +10,8 @@ char * shift_left(char row [], int size) {
     return row;
 }
 
-void print_row(const char row [], int size) {
-    int i;
+void print_row(const char row [], size_t size) {
+    size_t i;
     for(i = 0; i < size; i++) {
         printf("%c ", row[i]);
     }
@@ -21,8 +20,7 @@ void print_row(const char row [], int size) {
 
 int main() {
     char row [] = {'a', 'b', 'c', 'd', 'e'};
-    int size = sizeof(row) / sizeof(char);
-    int i;
+    size_t size = sizeof(row) / sizeof(row[0]); int i;
     printf("Original: ");
     print_row(row, size);
     for (i = 0; i < 3; i++) {

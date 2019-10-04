@@ -1,10 +1,10 @@
 #include <stdio.h>
 
-const int MAX_ROWS = 20;
+const size_t MAX_ROWS = 20;
 
-void read_matrix(int matrix[][MAX_ROWS], int num_rows, int num_cols) {
-    int i; int j;
-    printf("Please enter %d numbers to create the matrix\n", num_cols * num_rows);
+void read_matrix(int matrix[][MAX_ROWS], size_t num_rows, size_t num_cols) {
+    size_t i; size_t j;
+    printf("Please enter %lu numbers to create the matrix\n", num_cols * num_rows);
     for (i = 0; i < num_rows; i++) {
         for (j = 0; j < num_cols; j++) {
             scanf("%d", &matrix[i][j]);
@@ -12,8 +12,8 @@ void read_matrix(int matrix[][MAX_ROWS], int num_rows, int num_cols) {
     }
 }
 
-void print_matrix (const int matrix[][MAX_ROWS], int num_rows, int num_cols) {
-    int i = 0; int j = 0;
+void print_matrix (const int matrix[][MAX_ROWS], size_t num_rows, size_t num_cols) {
+    size_t i = 0; size_t j = 0;
     for (i = 0; i < num_rows; i++) {
         for (j = 0; j < num_cols; j++) {
             printf("%d ", matrix[i][j]);
@@ -22,8 +22,8 @@ void print_matrix (const int matrix[][MAX_ROWS], int num_rows, int num_cols) {
     }
 }
 
-void transpose_matrix(int matrix[][MAX_ROWS], int dimension) {
-    int i; int j; int temp;
+void transpose_matrix(int matrix[][MAX_ROWS], size_t dimension) {
+    size_t i; size_t j; int temp;
     for (i = 0; i < dimension; i++) {
         for (j = i + 1; j < dimension; j++) {
             temp = matrix[i][j];
@@ -33,9 +33,8 @@ void transpose_matrix(int matrix[][MAX_ROWS], int dimension) {
     }
 }
 
-void multiply_matrix(int product[][MAX_ROWS], const int matrix_1[][MAX_ROWS], const int matrix_2[][MAX_ROWS], int dimension) {
-    int accumulator;
-    int i; int j; int k;
+void multiply_matrix(int product[][MAX_ROWS], const int matrix_1[][MAX_ROWS], const int matrix_2[][MAX_ROWS], size_t dimension) {
+    int accumulator; size_t i; size_t j; size_t k;
     for (i = 0; i < dimension; i++) {
         for (j = 0; j < dimension; j++) {
             accumulator = 0;
