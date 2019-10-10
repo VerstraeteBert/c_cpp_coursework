@@ -11,8 +11,6 @@
      *  => e d c b a f g h
      */
 void pivot(const char * start, const char * end, char * pivot) {
-
-
     /**
      *The difference between the closest point (end / start)
      * and the pivot is the amount of numbers that can be swapped
