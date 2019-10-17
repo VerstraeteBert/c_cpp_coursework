@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>
 
 void my_tupper(char * s) {
     if (s[0] >= 97 && s[0] <= 122) {
