@@ -2,19 +2,19 @@
 #include <stdio.h>
 #define AANTAL 5
 
-int som(int a, int b){
+int som(int a, int b) {
     return a+b;
 }
 
-int product(int a, int b){
+int product(int a, int b) {
     return a*b;
 }
 
-int verschil(int a, int b){
+int verschil(int a, int b) {
     return a-b;
 }
 
-void schrijf(const int * t, int aantal){
+void schrijf(const int * t, int aantal) {
     int i;
     for(i=0; i<aantal; i++){
         printf("%i ",t[i]);
@@ -49,4 +49,3 @@ void vul_array(const int * a, const int * b, int * c, size_t size, int(*cb)(int,
         c[i] =  cb(a[i], b[i]);
     }
 }
-

@@ -27,8 +27,6 @@ void schrijf_array(const void * t, size_t aantal, int grootte, char tussenteken,
 
 int main() {
     char * namen[] = {"Evi","Jaro","Timen","Youri","Ashaf","Jennifer"};
-    printf("%lu\n", sizeof(namen) / sizeof(namen[0]));
-    printf("%lu\n", sizeof(char *));
     int leeftijden[] = {21,30,18,14,22,19};
     double scores[] = {0.5,1.6,8.2,-2.4};
     schrijf_array(leeftijden, sizeof(leeftijden) / sizeof(leeftijden[0]), sizeof(int), ',', (void(*) (const void*)) &schrijf_int);
