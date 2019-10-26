@@ -27,26 +27,24 @@ void write_numerator(const Numerator * pNumerator) {
 }
 
 int num_divisors_of(int x) {
-    int i = 1;
+    int i;
     int upper_bound = x % 2 == 0 ? x / 2 : (x / 2) + 1;
     int num_demons = 0;
-    while (i <= upper_bound) {
+    for (i = 1; i <= upper_bound; i++) {
         if (x % i == 0) num_demons++;
-        i++;
     }
     return num_demons;
 }
 
 int * divisors_of(int x, int num_divs) {
     int * divs = malloc(num_divs * sizeof(int));
-    int curr_div = 0; int i = 1;
+    int curr_div = 0; int i;
     int upper_bound = x % 2 == 0 ? x / 2 : (x / 2) + 1;
-    while (i <= upper_bound) {
+    for (i = 1; i <= upper_bound; i++) {
         if (x % i == 0) {
             divs[curr_div] = i;
             curr_div++;
         }
-        i++;
     }
     return divs;
 }
