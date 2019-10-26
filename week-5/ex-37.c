@@ -51,8 +51,10 @@ int * divisors_of(int x, int num_divs) {
 
 Numerator * read_numerator() {
     Numerator * pNumerator = malloc(sizeof(Numerator));
+    printf("ptr = %p\n", (void *) pNumerator);
     printf("Geef een geheel getal in: \n");
     scanf("%d", &pNumerator->value);
+    fflush(stdin);
     pNumerator->num_divisors=num_divisors_of(pNumerator->value);
     pNumerator->divisors=divisors_of(pNumerator->value, pNumerator->num_divisors);
     return pNumerator;
@@ -75,6 +77,7 @@ void write_numerators(Numerator ** pNumerators, int size) {
 
 void free_numerator(Numerator * pNumerator) {
     printf("Now that she had nothing to lose, she was free. %d\n", pNumerator->value);
+    printf("ptr = %p\n", (void *) pNumerator);
     free(pNumerator->divisors);
     free(pNumerator);
 }
@@ -103,6 +106,7 @@ int main () {
     printf("Alé tis goed, hoeveel moeje en?\n");
     int num_nums;
     scanf("%d", &num_nums);
+    fflush(stdin);
     Numerator ** pNumerators = malloc(num_nums * sizeof(Numerator *));
     read_numerators(pNumerators, num_nums);
     write_numerators(pNumerators, num_nums);
