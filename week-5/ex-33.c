@@ -10,7 +10,7 @@ char * lees() {
     fgets(s, MAX_SIZE, stdin);
     fflush(stdin);
     size_t len_str = strlen(s);
-    char * read = (char *)malloc(len_str - 1);
+    char * read = (char *) malloc(len_str - 1);
     strcpy(read, s);
     return read;
 }
