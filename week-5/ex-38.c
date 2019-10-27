@@ -9,6 +9,7 @@ void read_naive(char ** pt) {
         printf("Null pointer given");
         return;
     }
+
     char scanned_word [AVG_LEN_WORD + 1];
     int i; int num_scanned; int j;
     for (i = 0; i < NUM_WORDS; i++) {
@@ -24,6 +25,11 @@ void read_naive(char ** pt) {
 }
 
 void write(char ** pt) {
+    if (pt == NULL) {
+        printf("Null pointer given");
+        return;
+    }
+
     int i = 0; int j;
     while (pt[i] != NULL) {
         j = 0;
