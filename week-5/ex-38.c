@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-const int NUM_WORDS = 10;
-const int AVG_LEN_WORD = 7;
+const int NUM_WORDS = 3;
+const int AVG_LEN_WORD = 2;
 const int TOTAL_LEN_ARR = NUM_WORDS * (AVG_LEN_WORD + 1);
 
 void read_naive(char ** pt) {
@@ -9,17 +9,12 @@ void read_naive(char ** pt) {
         printf("Null pointer given");
         return;
     }
-
-    char scanned_word [AVG_LEN_WORD + 1];
-    int i; int num_scanned; int j;
+    int i; int num_scanned;
     for (i = 0; i < NUM_WORDS; i++) {
-        scanf("%s%n", scanned_word, &num_scanned);
+        printf("Start addr: %p\n", pt[i]);
+        scanf("%s%n", pt[i], &num_scanned);
         fflush(stdin);
-        for (j = 0; j < num_scanned + 1; j++) {
-            printf("Copying %c into %p\n",scanned_word[j], &(pt[i][j]));
-            pt[i][j] = scanned_word[j];
-        }
-        pt[i + 1] = &(pt[i][j]);
+        pt[i + 1] = &(pt[i][0 + num_scanned + 1]);
     }
     pt[NUM_WORDS] = NULL;
 }
@@ -29,15 +24,9 @@ void write(char ** pt) {
         printf("Null pointer given");
         return;
     }
-
-    int i = 0; int j;
+    int i = 0;
     while (pt[i] != NULL) {
-        j = 0;
-        while (pt[i][j] != '\0') {
-            printf("%c", pt[i][j]);
-            j++;
-        }
-        printf(" ");
+        printf("%s ", pt[i]);
         i++;
     }
 }
