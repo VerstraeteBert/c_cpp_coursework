@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 const size_t MAX_SENT_SIZE = 10;
-const size_t MAX_SENTS = 6;
+const size_t MAX_SENTS = 3;
 
 char * lees() {
     char s [MAX_SENT_SIZE];
@@ -20,27 +20,35 @@ char * lees() {
 }
 
 char ** lees_meerdere() {
-    char * s_temp [MAX_SENTS];
+    char * tmp_arr [MAX_SENTS];
+    char * tmp_read = lees();
     int num_read = 0;
-    char * temp_read = lees();
-    while (num_read < MAX_SENTS && strcmp(temp_read, "STOP") != 0) {
-        s_temp[num_read] = temp_read;
+    while (num_read < MAX_SENTS - 1 && strcmp(tmp_read, "STOP") != 0) {
+        tmp_arr[num_read] = tmp_read;
         num_read++;
-        temp_read = lees();
+        tmp_read = lees();
     }
-    if (strcmp(temp_read, "STOP") == 0) {
-        free(temp_read);
+    if (strcmp(tmp_read, "STOP") != 0) {
+        tmp_arr[num_read] = tmp_read;
+        num_read++;
+    } else {
+        free(tmp_read);
     }
-    char ** strings = malloc(num_read * sizeof(char*) + 1);
+
+    char ** strings = malloc((num_read + 1) * sizeof(char*));
     int i;
     for (i = 0; i < num_read; i++) {
-        strings[i] = s_temp[i];
+        strings[i] = tmp_arr[i];
     }
+    strings[i] = NULL;
     return strings;
 }
 
 void plaats_ptr_op_str(char *** haystack, char needle) {
-    while (haystack != NULL && **haystack[0] != needle) {
+    if (haystack == NULL) return;
+
+    while (*haystack != NULL && **haystack != NULL && **haystack[0] != needle) {
+        printf("%s", **haystack);
         (*haystack)++;
     }
 }
@@ -48,15 +56,19 @@ void plaats_ptr_op_str(char *** haystack, char needle) {
 int main(){
     char ** strings = lees_meerdere();
     int i = 0;
+
+    char ** cp_ptr = strings;
     plaats_ptr_op_str(&strings, 'b');
-    if (strings != NULL) {
-        printf("%s\n", *strings);
+    if (*strings != NULL) {
+        printf("Gevonden in string: %s\n", *strings);
     }
-    while(strings[i] != NULL) {
-        printf("Ik las ***%s*** \n", strings[i]);
-        free(strings[i]);
+
+    // cleanup
+    while(cp_ptr[i] != NULL) {
+        printf("Ik las ***%s*** \n", cp_ptr[i]);
+        free(cp_ptr[i]);
         i++;
     }
-    free(strings);
+
     return 0;
 }
