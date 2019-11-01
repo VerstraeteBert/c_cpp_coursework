@@ -5,9 +5,9 @@
 const size_t MAX_SENT_SIZE = 10;
 const size_t MAX_SENTS = 3;
 
-char * lees() {
+char * read_single() {
     char s [MAX_SENT_SIZE];
-    printf("Geef tekst in:\n");
+    printf("Input line:\n");
     fgets(s, MAX_SENT_SIZE, stdin);
     fflush(stdin);
     size_t len_str = strlen(s);
@@ -19,14 +19,14 @@ char * lees() {
     return read;
 }
 
-char ** lees_meerdere() {
+char ** read_mult() {
     char * tmp_arr [MAX_SENTS];
-    char * tmp_read = lees();
+    char * tmp_read = read_single();
     int num_read = 0;
     while (num_read < MAX_SENTS - 1 && strcmp(tmp_read, "STOP") != 0) {
         tmp_arr[num_read] = tmp_read;
         num_read++;
-        tmp_read = lees();
+        tmp_read = read_single();
     }
     if (strcmp(tmp_read, "STOP") != 0) {
         tmp_arr[num_read] = tmp_read;
@@ -54,18 +54,18 @@ void plaats_ptr_op_str(char *** haystack, char needle) {
 }
 
 int main(){
-    char ** strings = lees_meerdere();
+    char ** strings = read_mult();
     int i = 0;
 
     char ** cp_ptr = strings;
     plaats_ptr_op_str(&strings, 'b');
     if (*strings != NULL) {
-        printf("Gevonden in string: %s\n", *strings);
+        printf("Found in string: %s\n", *strings);
     }
 
     // cleanup
     while(cp_ptr[i] != NULL) {
-        printf("Ik las ***%s*** \n", cp_ptr[i]);
+        printf("I read ***%s***\n", cp_ptr[i]);
         free(cp_ptr[i]);
         i++;
     }
