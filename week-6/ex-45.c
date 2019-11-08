@@ -69,6 +69,18 @@ void delete(int x, node **pNode) {
     }
 }
 
+void delete_rec(int x, node** pNode) {
+    if (*pNode == NULL) return;
+
+    if ((*pNode)->value == x) {
+        node * temp = *pNode;
+        *pNode = (*pNode)->next;
+        free(temp);
+    } else {
+        delete_rec(x, &((*pNode)->next));
+    }
+}
+
 int main() {
     srand(time(NULL));
     node * pList = create_list(10, 100);
@@ -76,9 +88,9 @@ int main() {
     add_value(50, &pList);
     add_value(120, &pList);
     print_list(pList);
-    delete(50, &pList);
-    delete(120, &pList);
-    delete(20, &pList);
+    delete_rec(50, &pList);
+    delete_rec(120, &pList);
+    delete_rec(20, &pList);
     print_list(pList);
     free_rec(&pList);
     return 0;
