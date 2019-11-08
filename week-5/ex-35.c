@@ -15,6 +15,7 @@ char * read_single() {
         s[len_str - 1] = '\0';
     }
     char * read = (char *) malloc(len_str);
+    printf("%p\n", read);
     strcpy(read, s);
     return read;
 }
@@ -66,6 +67,7 @@ int main(){
     // cleanup
     while(cp_ptr[i] != NULL) {
         printf("I read ***%s***\n", cp_ptr[i]);
+        printf("%p\n", &cp_ptr[i]);
         free(cp_ptr[i]);
         i++;
     }

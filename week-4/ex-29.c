@@ -15,6 +15,7 @@ void schrijf_string(const char** t) {
 void schrijf_array(const void * t, size_t aantal, int grootte, char tussenteken, void(*schrijf)(const void*)) {
     size_t i;
     // chars zijn 1 byte, pointer met verwijzingen naar data gesplit per byte
+    // casten nodig om pointer arithmetic te doen !! char is de beste keuze
     const char * s = (char *) t;
     for (i = 0; i < aantal; i++) {
         schrijf(s + i * grootte);

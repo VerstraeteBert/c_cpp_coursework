@@ -5,7 +5,7 @@
 const size_t MAX_SENT_SIZE = 10;
 const size_t MAX_SENTS = 6;
 
-char * lees() {
+char * read_single() {
     char s [MAX_SENT_SIZE];
     printf("Geef tekst in:\n");
     fgets(s, MAX_SENT_SIZE, stdin);
@@ -19,14 +19,14 @@ char * lees() {
     return read;
 }
 
-char ** lees_meerdere() {
+char ** read_mult() {
     char * s_temp [MAX_SENTS];
     int num_read = 0;
-    char * temp_read = lees();
+    char * temp_read = read_single();
     while (num_read < MAX_SENTS && strcmp(temp_read, "STOP") != 0) {
         s_temp[num_read] = temp_read;
         num_read++;
-        temp_read = lees();
+        temp_read = read_single();
     }
     if (strcmp(temp_read, "STOP") == 0) {
         free(temp_read);
@@ -40,7 +40,7 @@ char ** lees_meerdere() {
 }
 
 int main(){
-    char ** strings = lees_meerdere();
+    char ** strings = read_mult();
     int i = 0;
     while(strings[i] != NULL) {
         printf("Ik las ***%s*** \n", strings[i]);

@@ -21,7 +21,7 @@ double chebyshev_dist(const point * one, const struct point * two) {
 }
 
 double calc_max_dist(const point * points, size_t size, double(* diff)(const point *, const point *)) {
-    double curr_max = -1;
+    double curr_max = 0;
     size_t i; size_t j; double curr_diff;
     for (i = 0; i < size; i++) {
         for (j = i + 1; j < size; j++) {
