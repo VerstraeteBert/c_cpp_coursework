@@ -27,39 +27,41 @@ int main() {
         }
         printf("\n");
     }
-    free_lists(head, NUM_LISTS);
+    free_lists(heads, NUM_LISTS);
 }
 
 node ** return_array_of_lists(size_t num) {
-    node * head_arr[num];
-    node * tail_arr[num];
-    size_t i;
-    for (i = 0; i < num; i++) {
-        node dummy;
-        head_arr[i] = &dummy;
-        tail_arr[i] = head_arr[i];
-        printf("%p\n", (void*) &dummy);
+    node ** head_list = (node **) malloc(num * sizeof(node *));
+    node * tail_list [num];
+    size_t i= 0;
+    char * read = read_word();
+    while (i < 3 && strcmp(read, "STOP") != 0) {
+        head_list[i] = (node *) malloc(sizeof(node));
+        (head_list[i])->data = read;
+        tail_list[i] = head_list[i];
+        read = read_word();
+        i++;
     }
 
     i = 0;
-    char * word = read_word();
-    while (strcmp(word, "STOP") != 0) {
-        append_word_to_tail(word, &(tail_arr[i % num]));
-        word = read_word();
+    while (strcmp(read, "STOP") != 0) {
+        append_word_to_tail(read, &(tail_list[i % num]));
+        i++;
+        read = read_word();
     }
-
-    for (i = 0; i < num; i++) {
-        head_arr[i] = (head_arr[i])->next;
-        tail_arr[i] = NULL;
-    }
-    return head_arr;
+    return head_list;
 }
 
 void append_word_to_tail(char * word, node ** curr_tail) {
     node * new_tail = (node *) malloc(sizeof(node));
     new_tail->data = word;
-    (*curr_tail)->next = new_tail;
-    (*curr_tail) = (*curr_tail)->next;
+
+    if (*curr_tail == NULL) {
+        *curr_tail = new_tail;
+    } else {
+        (*curr_tail)->next = new_tail;
+        (*curr_tail) = (*curr_tail)->next;
+    }
 }
 
 char * read_word() {
@@ -89,7 +91,7 @@ void free_lists (node ** lists, size_t size) {
     if (lists == NULL) return;
     size_t i;
     for (i = 0; i < size; i++) {
-        free_list(lists[i]);
+        free_list(&(lists[i]));
+        free(lists[i]);
     }
-    lists = NULL;
 }
