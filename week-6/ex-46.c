@@ -43,7 +43,6 @@ node ** return_array_of_lists(size_t num) {
         i++;
     }
 
-    i = 0;
     while (strcmp(read, "STOP") != 0) {
         append_word_to_tail(read, &(tail_list[i % num]));
         i++;
@@ -55,13 +54,8 @@ node ** return_array_of_lists(size_t num) {
 void append_word_to_tail(char * word, node ** curr_tail) {
     node * new_tail = (node *) malloc(sizeof(node));
     new_tail->data = word;
-
-    if (*curr_tail == NULL) {
-        *curr_tail = new_tail;
-    } else {
-        (*curr_tail)->next = new_tail;
-        (*curr_tail) = (*curr_tail)->next;
-    }
+    (*curr_tail)->next = new_tail;
+    (*curr_tail) = (*curr_tail)->next;
 }
 
 char * read_word() {
