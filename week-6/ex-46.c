@@ -9,22 +9,25 @@ struct node {
 };
 
 const int MAX_WORD_SIZE = 80;
+const int NUM_LISTS = 3;
 
 char * read_word();
 node ** return_array_of_lists(size_t);
 void append_word_to_tail(char *, node **);
-void free_lists(node ** list);
+void free_lists(node **, size_t);
+void free_list(node **);
 
 int main() {
-    node ** heads = return_array_of_lists(3);
+    node ** heads = return_array_of_lists(NUM_LISTS);
     int i;
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < NUM_LISTS; i++) {
         while (heads[i]) {
             printf("%s ", heads[i]->data);
             heads[i] = heads[i]->next;
         }
         printf("\n");
     }
+    free_lists(head, NUM_LISTS);
 }
 
 node ** return_array_of_lists(size_t num) {
@@ -70,4 +73,23 @@ char * read_word() {
     char * read = (char *) malloc(len_str);
     strcpy(read, word_temp);
     return read;
+}
+
+void free_list(node ** pList) {
+    node *pTemp;
+    while (*pList) {
+        pTemp = (*pList)->next;
+        free((*pList)->data);
+        free(*pList);
+        *pList = pTemp;
+    }
+}
+
+void free_lists (node ** lists, size_t size) {
+    if (lists == NULL) return;
+    size_t i;
+    for (i = 0; i < size; i++) {
+        free_list(lists[i]);
+    }
+    lists = NULL;
 }
