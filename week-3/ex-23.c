@@ -1,10 +1,10 @@
 #include <stdio.h>
 
-int * idx_of(int * haystack, size_t size, int needle) {
+int * idx_of(int haystack [], size_t size, int needle) {
     size_t i;
     for (i = 0; i < size; i++) {
         if (haystack[i] == needle) {
-            return haystack + i;
+            return &haystack[i];
         }
     }
     return NULL;
@@ -20,17 +20,13 @@ void print_arr(const int * arr, size_t size) {
 }
 
 void move_ptr_to_num(int **ptr, size_t size, int needle) {
-    size_t i;
-    for (i = 0; i < size; i++) {
-        int x = **ptr;
-        if (x == needle) {
-            return;
-        }
+    int i = 0;
+    while (i < size && **ptr != needle) {
         (*ptr)++;
+        i++;
     }
-    *ptr = NULL;
+    if (i == size) *ptr = NULL;
 }
-
 
 int main() {
     int arr[] = {1, 2, 3, 7, 3, 3, 5};

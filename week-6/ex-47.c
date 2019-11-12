@@ -61,7 +61,7 @@ int is_equal(uint x, uint y) {
 
 uint product (uint a, uint b) {
     int res = 0;
-    while (a) {
+    while (a != 0) {
         if ((a & 1) == 1) {
             res += b;
         }

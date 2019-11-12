@@ -31,7 +31,7 @@ void write(char ** pt) {
     }
 }
 
-int main(){
+int main() {
     char* pt[NUM_WORDS + 1];
     char t[TOTAL_LEN_ARR];
     pt[0] = t;

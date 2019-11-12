@@ -1,18 +1,18 @@
 #include <stdio.h>
 #include <limits.h>
 
-void zoek_extremen(const int* arr, size_t n, int * min_ref, int * max_ref) {
-    if (n == 0) {
+void zoek_extremen(const int arr [], size_t n, int * min, int * max) {
+    if (n == 0 || arr == NULL) {
         return;
     }
-
-    *min_ref = arr[0]; *max_ref = arr[0];
-    for (int i = 0; i < n; i++) {
-        if (arr[i] < *min_ref) {
-            *min_ref = arr[i];
+    *min = arr[0]; *max = arr[0];
+    int i;
+    for (i = 0; i < n; i++) {
+        if (arr[i] < *min) {
+            *min = arr[i];
         }
-        if (arr[i] > *max_ref) {
-            *max_ref = arr[i];
+        if (arr[i] > *max) {
+            *max = arr[i];
         }
     }
 }
@@ -41,7 +41,7 @@ void zoek_extremen_rec(const int * arr, size_t size, int *min_ref, int * max_ref
 int main() {
     int arr[] = {37, 20, 64, 2, 90, 80, 85};
     int max; int min;
-    zoek_extremen_rec(&arr, sizeof(arr) / sizeof(arr[0]), &min, &max);
+    zoek_extremen(&arr, sizeof(arr) / sizeof(arr[0]), &min, &max);
     printf("Min: %d\n", min);
     printf("Max: %d\n", max);
 }

@@ -26,13 +26,13 @@ void print_list(const node * head) {
     printf("\n");
 }
 
-void free_list_rec(node ** pList) {
-    if ((*pList)->next) {
-        free_list_rec(&((*pList)->next));
-    }
-    printf("Freeing: %d\n", (*pList)->value);
-    free(*pList);
-}
+//void free_list_rec(node ** pList) {
+//    if ((*pList)->next) {
+//        free_list_rec(&((*pList)->next));
+//    }
+//    printf("Freeing: %d\n", (*pList)->value);
+//    free(*pList);
+//}
 
 node * create_list(const int num, const int upper_bound) {
     node * head = NULL;
@@ -45,12 +45,12 @@ node * create_list(const int num, const int upper_bound) {
     return head;
 }
 
-void free_rec(node ** pNode) {
-    if ((*pNode)->next) {
-        free_rec(&((*pNode)->next));
-    }
-    free(*pNode);
-    *pNode = NULL;
+void free_list_rec(node ** p_node) {
+    if (*p_node == NULL) return;
+    free_list_rec(&((*p_node)->next));
+    printf("freeing: %d\n", (*p_node)->value);
+    free(*p_node);
+    *p_node = NULL;
 }
 
 int main() {
@@ -58,5 +58,6 @@ int main() {
     node * pList = create_list(10, 100);
     print_list(pList);
     free_list_rec(&pList);
+    print_list(pList);
     return 0;
 }

@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <ranlib.h>
 #include <time.h>
 
 typedef struct node node;
@@ -11,18 +10,23 @@ struct node {
 };
 
 void add_front(const int value, node ** head) {
+    node * temp = *head;
     node * new_node = (node *) malloc(sizeof(node));
     new_node->value = value;
-    node * prev_head = *head;
+    new_node->next = temp;
     *head = new_node;
-    (*head)->next = prev_head;
 }
 
+
 void print_list(const node * head) {
+    if (!head) {
+        printf("X");
+    }
     while (head) {
         printf("%d ", head->value);
         head = head->next;
     }
+    printf("\n");
 }
 
 void free_list(node ** pList) {
@@ -34,26 +38,25 @@ void free_list(node ** pList) {
     }
 }
 
-node * create_list(const int num, const int upper_bound) {
-    node * head = NULL;
+node * create_list(int size, int upper_bound) {
+    node * l = NULL;
     int i;
-    int curr_val = upper_bound;
-    for (i = 0; i < num; i++) {
-        curr_val -= rand() % 3;
-        add_front(curr_val, &head);
+    int curr = upper_bound;
+    for (i = 0; i < size; i++) {
+        add_front(curr, &l);
+        curr -= rand() % 3;
     }
-    return head;
+    return l;
 }
 
-void delete_duplicates(node * pNode) {
-    node * to_delete = NULL;
-    while(pNode != NULL) {
-        while(pNode->next != NULL && pNode->value == pNode->next->value) {
-            to_delete = pNode->next;
-            pNode->next = pNode->next->next;
+void delete_dups(node * p_node) {
+    while (p_node && p_node->next) {
+        if (p_node->value == p_node->next->value) {
+            node * to_delete = p_node->next;
+            p_node->next = p_node->next->next;
             free(to_delete);
         }
-        pNode = pNode->next;
+        p_node = p_node->next;
     }
 }
 
@@ -61,10 +64,11 @@ int main() {
     srand(time(NULL));
     node * pList = create_list(10, 100);
     print_list(pList);
-    printf("\nnu worden dubbels verwijderd: \n");
-    delete_duplicates(pList);
-    printf("\nna verwijderen van dubbels: \n\n");
+    printf("nu worden dubbels verwijderd: \n");
+    delete_dups(pList);
+    printf("na verwijderen van dubbels: \n");
     print_list(pList);
     free_list(&pList);
+    print_list(pList);
     return 0;
 }

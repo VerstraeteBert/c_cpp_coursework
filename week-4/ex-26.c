@@ -1,13 +1,13 @@
 #include <stdio.h>
 
-void my_tupper(char * s) {
-    if (s[0] >= 97 && s[0] <= 122) {
-        s[0] -= 32;
+void my_tupper (char * str) {
+    if (str[0] >= 'a' && str[0] <= 'z') {
+        str[0] += ('A' - 'a');
     }
     int i;
-    for (i = 1; s[i] != '\0'; i++) {
-        if (s[i] >= 65 && s[i] <= 90) {
-            s[i] += 32;
+    for (i = 1; str[i] != '\0'; i++) {
+        if (str[i] >= 'A' && str[i] <= 'Z') {
+            str[i] += ('a' - 'A');
         }
     }
 }

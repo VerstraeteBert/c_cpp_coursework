@@ -9,12 +9,11 @@ struct node {
 };
 
 void add_front(const int value, node ** head) {
+    node * temp = *head;
     node * new_node = (node *) malloc(sizeof(node));
     new_node->value = value;
-
-    node * prev_head = *head;
+    new_node->next = temp;
     *head = new_node;
-    (*head)->next = prev_head;
 }
 
 void print_list(const node * head) {
@@ -26,7 +25,7 @@ void print_list(const node * head) {
 
 void free_list(node ** pList) {
     node *pTemp;
-    while (*pList) {
+    while (*pList != NULL) {
         pTemp = (*pList)->next;
         free(*pList);
         *pList = pTemp;

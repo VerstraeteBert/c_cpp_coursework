@@ -3,13 +3,13 @@
 
 const size_t INPUT_SIZE = 100;
 
-void wis(char * s, size_t size) {
-    size_t i;
-    for (i = 0; i < size; i++) {
-        // is \n "whitespace" ?
-        if ((!islower(s[i]) && !isspace(s[i]))) {
-            s[i] = ' ';
+void wis(char * p_str) {
+    if (p_str == NULL) return;
+    while (*p_str) {
+        if (!isspace(*p_str) || !islower(*p_str)) {
+            *p_str = ' ';
         }
+        p_str++;
     }
 }
 
@@ -18,13 +18,13 @@ void write(const char * s) {
 }
 
 int main() {
-    char input [100];
+    char input [INPUT_SIZE];
     fgets(input, INPUT_SIZE, stdin);
-    wis(input, INPUT_SIZE);
+    wis(input);
     write(input);
 
     char test [] = "8d’a7!<t-)>+. -)4h&!e9)b*( )j’(e)!4\n8g|'92o!43e5d/.’ 2 3g*(e(’d22a’(a25n’(";
-    wis(test, sizeof(test) / sizeof(char));
+    wis(test);
     write(test);
     return 0;
 }

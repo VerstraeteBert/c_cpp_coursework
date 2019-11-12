@@ -1,60 +1,64 @@
 #include <stdio.h>
 #include <string.h>
 
-void greet_name(char * name) {
-    printf("Hi %s!\n", name);
+void greet(char * names [], int size);
+void greet_printer(char * name);
+void initcap(char * str);
+char * alpha_smallest(char * [], int);
+
+int main (int argc, char * argv []) {
+    if (argc < 1) {
+        greet_printer("allemaal");
+    } else {
+        greet(argv + 1, argc - 1);
+    }
+    return 0;
 }
 
-void ex_initcap(char * s) {
-    if (s[0] >= 97 && s[0] <= 122) {
-        s[0] -= 32;
+void initcap(char * str) {
+    if (str == NULL) return;
+
+    size_t i = 0;
+    if (str[i] && (str[i] >= 'a' && str[i] <= 'z')) {
+        str[i] += ('A' - 'a');
     }
-    size_t i;
-    for (i = 1; s[i] != '\0'; i++) {
-        if (s[i] >= 65 && s[i] <= 90) {
-            s[i] += 32;
+    i++;
+    while(str[i]) {
+        if (str[i] >= 'A' &&  str[i] <= 'Z') {
+            str[i] += ('a' - 'A');
         }
+        i++;
     }
 }
 
-char * alpha_b_smallest(char** strings, size_t size) {
-    if (size == 0) {
-        return "";
-    }
-
-    size_t i; size_t j;
-    size_t idx_smallest = 0;
-    size_t len_compar;
-    size_t highest_len = strlen(strings[idx_smallest]);
-
+char * alpha_smallest(char * strings [], int size) {
+    if (strings == NULL) return NULL;
+    char * smallest = strings[0];
+    int i;
     for (i = 1; i < size; i++) {
-        len_compar = strlen(strings[i]);
-        highest_len =  highest_len < len_compar ? highest_len : len_compar;
-        for (j = 0; j < highest_len; j++) {
-            if (strings[idx_smallest][j] < strings[i][j]) {
-                break;
-            }
-            if (strings[idx_smallest][j] > strings[i][j]) {
-                idx_smallest = i;
-                highest_len = strlen(strings[idx_smallest]);
-                break;
-            }
+        if (strcmp(smallest, strings[i]) > 0) {
+            smallest = strings[i];
         }
     }
-    return strings[idx_smallest];
+    return smallest;
 }
 
-void greet_alphab_smallest(char ** names, size_t size) {
+void greet_printer(char * name) {
+    printf("Dag %s!\n", name);
+}
+
+void greet(char * names [], int size) {
     if (size == 0) {
-        greet_name("everyone");
+        greet_printer("allemaal");
         return;
     }
 
-    char * smallest = alpha_b_smallest(names, size);
-    greet_name(smallest);
-}
+    int i;
+    for (i = 0; i < size; i++) {
+        initcap(names[i]);
+    }
 
-int main(int argc, char** argv) {
-    greet_alphab_smallest(argv + 1, argc - 1);
-    return 0;
+    char * smallest = alpha_smallest(names, size);
+
+    greet_printer(smallest);
 }

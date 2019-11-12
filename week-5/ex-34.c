@@ -19,28 +19,29 @@ char * read_single() {
     return read;
 }
 
-char ** read_mult() {
-    char * s_temp [MAX_SENTS];
-    int num_read = 0;
-    char * temp_read = read_single();
-    while (num_read < MAX_SENTS && strcmp(temp_read, "STOP") != 0) {
-        s_temp[num_read] = temp_read;
-        num_read++;
-        temp_read = read_single();
+char ** read_multi() {
+    char * temp_sents [MAX_SENTS];
+    int read = 0;
+    char * temp = read_single();
+    while (read < MAX_SENTS - 1 && strcmp(temp, "STOP") != 0) {
+        temp_sents[read] = temp;
+        read++;
+        temp = read_single();
     }
-    if (strcmp(temp_read, "STOP") == 0) {
-        free(temp_read);
+    if (strcmp(temp, "STOP") == 0) {
+        free(temp);
     }
-    char ** strings = malloc(num_read * sizeof(char*) + 1);
+    char ** sents = (char **) malloc(read + 1 * sizeof(char *));
     int i;
-    for (i = 0; i < num_read; i++) {
-        strings[i] = s_temp[i];
+    for (i = 0; i < read; i++) {
+        sents[i] = temp_sents[i];
     }
-    return strings;
+    sents[i] = NULL;
+    return sents;
 }
 
 int main(){
-    char ** strings = read_mult();
+    char ** strings = read_multi();
     int i = 0;
     while(strings[i] != NULL) {
         printf("Ik las ***%s*** \n", strings[i]);

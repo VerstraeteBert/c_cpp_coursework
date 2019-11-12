@@ -58,18 +58,15 @@ void delete_duplicates(node * pNode) {
     }
 }
 
-void add_value(int value, node ** pNode) {
-    while (*pNode && (*pNode)->value < value) {
-        pNode = &((*pNode)->next);
+void add_value(int number, node ** p_node) {
+    while (*p_node && (*p_node)->value < number) {
+        p_node = &((*p_node)->next);
     }
-
-    node * temp = *pNode;
-
-    *pNode = (node *) malloc(sizeof(node));
-    (*pNode)->value = value;
-    (*pNode)->next = temp;
+    node * new_node = (node *) malloc(sizeof(node));
+    new_node->value = number;
+    new_node->next = *p_node;
+    *p_node = new_node;
 }
-
 int main(){
     srand(time(NULL));
     node * m = create_list(10,1000);

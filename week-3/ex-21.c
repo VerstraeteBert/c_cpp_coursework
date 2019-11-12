@@ -12,7 +12,7 @@ void write_n(const char * string, int num_to_print) {
     for (i = 0; i < num_to_print; i++) {
         printf("%c", string[i]);
     }
-    printf("\n")
+    printf("\n");
 }
 
 void write(const char * c1, const char * c2) {
@@ -20,7 +20,7 @@ void write(const char * c1, const char * c2) {
         printf("%c", *c1);
         c1++;
     }
-    printf("\n")
+    printf("\n");
 }
 
 void print_sizes_of() {

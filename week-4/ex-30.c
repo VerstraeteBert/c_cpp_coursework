@@ -2,23 +2,14 @@
 #include <assert.h>
 #include <string.h>
 
+const int array_bevat_dubbels_na_elkaar(const void *, const size_t, const int, const int(*)(const void *, const void *));
+
 int int_eq(const int * a, const int * b) {
     return *a == *b;
 }
 
-int string_eq(const char ** a, const char ** b) {
-    return !strcmp(*a, *b);
-}
-
-int array_bevat_dubbels_na_elkaar(const void * arr, size_t size, int grootte, int (*eq) (const void *, const void *)) {
-    size_t i;
-    const char * s = (char *) arr;
-    for (i = 0; i < size - 1; i++) {
-        if (eq(s + i * grootte, s + (i + 1) * grootte)) {
-            return 1;
-        }
-    }
-    return 0;
+int str_eq(const char ** a, const char ** b) {
+    return strcmp(*a, *b) == 0;
 }
 
 int main() {
@@ -28,10 +19,20 @@ int main() {
                           "lindelaan"};
     char* woorden_neen[] = {"wie","goed","doet","goed","ontmoet"};
 
-    assert(array_bevat_dubbels_na_elkaar(getallen_ja, sizeof(getallen_ja) / sizeof(getallen_ja[0]), sizeof(int), (int(*) (const void*, const void*)) &int_eq) == 1);
-    assert(array_bevat_dubbels_na_elkaar(getallen_neen, sizeof(getallen_neen) / sizeof(getallen_neen[0]), sizeof(int), (int(*) (const void*, const void*)) &int_eq) == 0);
-    assert(array_bevat_dubbels_na_elkaar(woorden_ja, sizeof(woorden_ja) / sizeof(woorden_ja[0]), sizeof(char *), (int(*) (const void*, const void*)) &string_eq) == 1);
-    assert(array_bevat_dubbels_na_elkaar(woorden_neen, sizeof(woorden_neen) / sizeof(woorden_neen[0]), sizeof(char *), (int(*) (const void*, const void*)) &string_eq) == 0);
+    assert(array_bevat_dubbels_na_elkaar(getallen_ja, sizeof(getallen_ja) / sizeof(getallen_ja[0]), sizeof(int), (const int(*) (const void*, const void*)) int_eq) == 1);
+    assert(array_bevat_dubbels_na_elkaar(getallen_neen, sizeof(getallen_neen) / sizeof(getallen_neen[0]), sizeof(int), (const int(*) (const void*, const void*)) int_eq) == 0);
+    assert(array_bevat_dubbels_na_elkaar(woorden_ja, sizeof(woorden_ja) / sizeof(woorden_ja[0]), sizeof(char *), (const int(*) (const void*, const void*)) str_eq) == 1);
+    assert(array_bevat_dubbels_na_elkaar(woorden_neen, sizeof(woorden_neen) / sizeof(woorden_neen[0]), sizeof(char *), (const int(*) (const void*, const void*)) str_eq) == 0);
 
     return 0;
 }
+
+const int array_bevat_dubbels_na_elkaar(const void * data, const size_t size, const int width, const int(*eq)(const void *, const void *)) {
+       char * arr = (char *) data;
+       size_t i = 0;
+       while (i < size - 1 && !eq(arr + i * width, arr + (i + 1) * width)) {
+           i++;
+       }
+       return i != size - 1;
+}
+

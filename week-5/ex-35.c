@@ -15,7 +15,7 @@ char * read_single() {
         s[len_str - 1] = '\0';
     }
     char * read = (char *) malloc(len_str);
-    printf("%p\n", read);
+    printf("%p\n", (void *) read);
     strcpy(read, s);
     return read;
 }
@@ -45,12 +45,9 @@ char ** read_mult() {
     return strings;
 }
 
-void plaats_ptr_op_str(char *** haystack, char needle) {
-    if (haystack == NULL) return;
-
-    while (*haystack != NULL && **haystack != NULL && **haystack[0] != needle) {
-        printf("%s", **haystack);
-        (*haystack)++;
+void plaats_ptr_op_str(char *** ptr_strings, char c) {
+    while (*ptr_strings && **ptr_strings && ***ptr_strings != c) {
+        (*ptr_strings)++;
     }
 }
 
@@ -67,7 +64,7 @@ int main(){
     // cleanup
     while(cp_ptr[i] != NULL) {
         printf("I read ***%s***\n", cp_ptr[i]);
-        printf("%p\n", &cp_ptr[i]);
+        printf("%p\n", (void *) &cp_ptr[i]);
         free(cp_ptr[i]);
         i++;
     }

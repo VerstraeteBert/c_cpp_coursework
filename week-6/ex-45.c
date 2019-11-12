@@ -49,29 +49,8 @@ node * create_list(const int num, const int upper_bound) {
     return head;
 }
 
-void free_rec(node ** pNode) {
-    if ((*pNode)->next) {
-        free_rec(&((*pNode)->next));
-    }
-    free(*pNode);
-    *pNode = NULL;
-}
-
-void delete(int x, node **pNode) {
-    while (*pNode && (*pNode)->value < x) {
-        pNode = &((*pNode)->next);
-    }
-
-    if (*pNode && (*pNode)->value == x) {
-        node * temp = *pNode;
-        (*pNode) = (*pNode)->next;
-        free(temp);
-    }
-}
-
-void delete_rec(int x, node** pNode) {
+void free_rec(int x, node **pNode) {
     if (*pNode == NULL) return;
-
     if ((*pNode)->value == x) {
         node * temp = *pNode;
         *pNode = (*pNode)->next;
@@ -80,6 +59,19 @@ void delete_rec(int x, node** pNode) {
         delete_rec(x, &((*pNode)->next));
     }
 }
+
+//void delete(int x, node **pNode) {
+//    while (*pNode && (*pNode)->value < x) {
+//        pNode = &((*pNode)->next);
+//    }
+//
+//    if (*pNode && (*pNode)->value == x) {
+//        node * temp = *pNode;
+//        (*pNode) = (*pNode)->next;
+//        free(temp);
+//    }
+//}
+//
 
 int main() {
     srand(time(NULL));

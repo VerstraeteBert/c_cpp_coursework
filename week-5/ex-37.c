@@ -118,4 +118,3 @@ int main () {
     free_numerators(pNumerators, num_nums);
     return 0;
 }
-

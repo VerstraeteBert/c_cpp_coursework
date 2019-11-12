@@ -58,100 +58,61 @@ void delete_duplicates(node * pNode) {
     }
 }
 
-//node * merge(node ** a, node ** b){
-//    node * dest_list;
-//    node * i = *a;
-//    node * j = *b;
-//    node * dest_node;
-//
-//    if (*a == NULL) {
-//        dest_list = *b;
-//        return dest_list;
-//    }
-//    if (*b == NULL) {
-//        dest_list = *a;
-//        return dest_list;
-//    }
-//
-//    if (&(*a) == &(*b)) {
-//        dest_list = *a;
-//        return dest_list;
-//    }
-//
-//    if ((*a)->value < (*b)->value) {
-//        dest_node = *a;
-//        i = (*a)->next;
-//
-//    } else {
-//        dest_node = *b;
-//        j = (*b)->next;
-//    }
-//
-//    dest_list = dest_node;
-//
-//    while(i != 0 && j != 0){
-//        if(i->value < j->value){
-//            dest_node->next = i;
-//            i = i->next;
-//        }
-//        else{
-//            dest_node->next = j;
-//            j = j->next;
-//        }
-//        dest_node = dest_node->next;
-//    }
-//
-//    while(i != 0){
-//        dest_node->next = i;
-//        dest_node = dest_node->next;
-//        i = i->next;
-//    }
-//    while(j != 0){
-//        dest_node->next = j;
-//        dest_node = dest_node->next;
-//        j = j->next;
-//    }
-////    *a = 0;
-////    *b = 0;
-//    return dest_list;
-//}
+node * merge(node ** a, node ** b){
+    node * dest_list;
+    node * dest_node;
+    if (*a == NULL) {
+        dest_list = *b;
+        *b = NULL;
+        return dest_list;
+    }
+    if (*b == NULL) {
+        dest_list = *a;
+        *b = NULL;
+        return dest_list;
+    }
 
-void move_node(node** dest, node *** src)
-{
-    node * temp = **src;
-    assert(temp != 0);
-    **src = (**src)->next;
-    temp->next = NULL;
-    (*dest)->next = temp;
-}
+    if (&(*a) == &(*b)) {
+        dest_list = *a;
+        *b = NULL;
+        *a = NULL;
+        return dest_list;
+    }
 
-node * merge_sorted_lists(node** a, node** b) {
-    assert(&(*a) != &(*b));
-    assert(a && b);
+    if ((*a)->value < (*b)->value) {
+        dest_node = *a;
+        *a = (*a)->next;
 
-    node dummy;
-    node * tail = &dummy;
+    } else {
+        dest_node = *b;
+        *b = (*b)->next;
+    }
 
-    while(*a != 0 && *b != 0) {
-        if ((*a)->value < (*b)->value) {
-            move_node(&tail, &a);
-        } else {
-            move_node(&tail, &b);
+    dest_list = dest_node;
+
+    while((*a) != 0 && (*b) != 0){
+        if((*a)->value < (*b)->value){
+            dest_node->next = (*a);
+            *a = (*a)->next;
         }
-        tail = tail->next;
+        else{
+            dest_node->next = (*b);
+            (*b) = (*b)->next;
+        }
+        dest_node = dest_node->next;
     }
 
-    if (*a != 0) {
-        tail->next = *a;
-        *a = 0;
+    while((*a) != 0){
+        dest_node->next = *a;
+        dest_node = dest_node->next;
+        *a = (*a)->next;
     }
-
-    if (*b != 0) {
-        tail->next = *b;
-        *b = 0;
+    while((*b) != 0){
+        dest_node->next = *b;
+        dest_node = dest_node->next;
+        *b = (*b)->next;
     }
-
-    return dummy.next;
+    return dest_list;
 }
 
 int main(){
@@ -161,7 +122,7 @@ int main(){
     printf("\nLIJST m:\n"); print_list(m);
     printf("\nLIJST n:\n"); print_list(n);
     printf("\nDeze worden gemerged. \n\n");
-    node * res = merge_sorted_lists(&n, &m);
+    node * res = merge(&m, &m);
     printf("\nLIJST m: \n"); print_list(m);
     printf("\nLIJST n: \n"); print_list(n);
     printf("\nRESULTAAT: \n"); print_list(res);

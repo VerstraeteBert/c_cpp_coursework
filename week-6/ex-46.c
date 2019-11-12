@@ -33,30 +33,30 @@ int main() {
 node ** return_array_of_lists(size_t num) {
     node ** head_list = (node **) malloc(num * sizeof(node *));
     node ** tail_list = (node **) malloc(num * sizeof(node *));
-    size_t i= 0;
-    char * read = read_word();
-    while (i < num && strcmp(read, "STOP") != 0) {
+    size_t i = 0;
+    char * word = read_word();
+    while (i < num && strcmp(word, "STOP") != 0) {
         head_list[i] = (node *) malloc(sizeof(node));
-        (head_list[i])->data = read;
+        (head_list[i])->data = word;
         tail_list[i] = head_list[i];
-        read = read_word();
+        word = read_word();
         i++;
     }
 
     i = 0;
-    while (strcmp(read, "STOP") != 0) {
-        append_word_to_tail(read, &(tail_list[i]));
+    while (strcmp(word, "STOP") != 0) {
+        append_word_to_tail(word, &(tail_list[i]));
         i = (i + 1) % num;
-        read = read_word();
+        word = read_word();
     }
 
     // clean up
-    if (strcmp(read, "STOP") == 0) {
-        free(read);
+    if (strcmp(word, "STOP") == 0) {
+        free(word);
     }
     for (i = 0; i < num; i++) {
-        tail_list[i] = NULL;
         free(tail_list[i]);
+        tail_list[i] = NULL;
     }
 
     return head_list;
@@ -75,9 +75,10 @@ char * read_word() {
     fflush(stdin);
     size_t len_str = strlen(word_temp);
     if (word_temp[len_str - 1] == '\n')  {
-        word_temp[len_str - 1] = '\0';
+        len_str--;
+        word_temp[len_str] = '\0';
     }
-    char * read = (char *) malloc(len_str);
+    char * read = (char *) malloc(len_str + 1);
     strcpy(read, word_temp);
     return read;
 }
