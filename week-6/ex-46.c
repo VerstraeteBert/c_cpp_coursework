@@ -48,6 +48,11 @@ node ** return_array_of_lists(size_t num) {
         i++;
         read = read_word();
     }
+
+    if (strcmp(read, "STOP") == 0) {
+        free(read);
+    }
+
     return head_list;
 }
 
