@@ -43,9 +43,10 @@ node ** return_array_of_lists(size_t num) {
         i++;
     }
 
+    i = 0;
     while (strcmp(read, "STOP") != 0) {
-        append_word_to_tail(read, &(tail_list[i % num]));
-        i++;
+        append_word_to_tail(read, &(tail_list[i]));
+        i = (i + 1) % num;
         read = read_word();
     }
 
