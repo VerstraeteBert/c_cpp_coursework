@@ -35,7 +35,7 @@ node ** return_array_of_lists(size_t num) {
     node * tail_list [num];
     size_t i= 0;
     char * read = read_word();
-    while (i < 3 && strcmp(read, "STOP") != 0) {
+    while (i < num && strcmp(read, "STOP") != 0) {
         head_list[i] = (node *) malloc(sizeof(node));
         (head_list[i])->data = read;
         tail_list[i] = head_list[i];
