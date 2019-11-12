@@ -32,7 +32,7 @@ int main() {
 
 node ** return_array_of_lists(size_t num) {
     node ** head_list = (node **) malloc(num * sizeof(node *));
-    node * tail_list [num];
+    node ** tail_list = (node **) malloc(num * sizeof(node *));
     size_t i= 0;
     char * read = read_word();
     while (i < num && strcmp(read, "STOP") != 0) {
@@ -49,8 +49,13 @@ node ** return_array_of_lists(size_t num) {
         read = read_word();
     }
 
+    // clean up
     if (strcmp(read, "STOP") == 0) {
         free(read);
+    }
+    for (i = 0; i < num; i++) {
+        tail_list[i] = NULL;
+        free(tail_list[i]);
     }
 
     return head_list;
