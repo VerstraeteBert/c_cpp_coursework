@@ -1,0 +1,5 @@
+#! /bin/bash
+filename=$1
+[ -z "$filename" ] && echo "ERROR: Please specify a CPP file to compile" && exit 2
+file_path="$(pwd)/${filename}"
+g++ "${file_path}" -o "${file_path}.bin" -std=c++14 -Wpedantic -Wall -Wextra -pedantic && "${file_path}".bin && rm "${file_path}.bin"

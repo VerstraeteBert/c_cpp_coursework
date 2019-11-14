@@ -1,4 +1,6 @@
 #! /bin/bash
 filename=$1
+[ -z "$filename" ] && echo "ERROR: Please specify a C file to compile" && exit 2
 file_path="$(pwd)/${filename}"
-gcc "${file_path}.c" -o "${file_path}" -pedantic && "${file_path}" && rm "${file_path}"
+
+gcc "${file_path}" -o "${file_path}.bin" -pedantic && "${file_path}.bin" && rm "${file_path}.bin"
