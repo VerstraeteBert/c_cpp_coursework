@@ -32,7 +32,6 @@ int main() {
         return 1;
     }
 
-
     set<int>::iterator line_nums_it = sorted_line_nums.begin();
     string line_content;
     int curr_pos = 0;

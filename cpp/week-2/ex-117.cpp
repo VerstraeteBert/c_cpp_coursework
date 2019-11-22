@@ -1,7 +1,8 @@
 /**
  * a) unordered_set<string>
- * b) ?? string? onmiddelijk cout? datastructuur om deze bij te houden is redundant
- * c) ?? string? datastructuur om deze bij te houden is redundant -> persé toch bijhouden -> stack
+ * b) iterateer naar i, vanaf daar tot j printen, dan stoppen.
+ *    datastructuur om deze bij te houden is redundant
+ * c) stack
  * d) int
  * e) vector<int> in order? -> set<int>
  * d) map<string, int>
