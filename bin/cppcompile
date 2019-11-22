@@ -1,5 +1,21 @@
 #! /bin/bash
-filename=$1
-[ -z "$filename" ] && echo "ERROR: Please specify a CPP file to compile" && exit 2
-file_path="$(pwd)/${filename}"
-g++ "${file_path}" -o "${file_path}.bin" -std=c++14 -Wpedantic -Wall -Wextra -pedantic && "${file_path}".bin && rm "${file_path}.bin"
+
+set -eo pipefail
+
+args=("$@")
+ELEMENTS=${#args[@]}
+
+[ -z "$args[0]" ] && echo "ERROR: Please specify a CPP file to compile" && exit 2
+file_path="$(pwd)/${args[0]}"
+
+g++ "${file_path}" -o "${file_path}.bin" -std=c++14 -Wpedantic -Wall -Wextra -pedantic
+
+if [ $ELEMENTS -gt 1 ]
+        then
+        unset args[0]
+        "${file_path}.bin" ${args[*]}
+else
+        "${file_path}.bin"
+fi
+
+rm "${file_path}.bin"
