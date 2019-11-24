@@ -102,7 +102,7 @@ void splits_woorden(string strings [], int &size, const string &zin) {
         r = zin.find(" ", l);
     }
 
-    if (r == string::npos && size < ARR_SIZE) {
+    if (r == string::npos && l < str_len) {
         strings[size] = zin.substr(l, str_len - l);
         size++;
     }

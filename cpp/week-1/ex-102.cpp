@@ -1,15 +1,17 @@
 #include <iostream>
-#include <iomanip>
+#include <iomanip> // voor de std::setw, std::hex etc
+
+using namespace std;
 
 const int CEIL = 64;
 
 int main() {
     for (int i = 0; i <= CEIL; i++) {
-        std::cout
-            << std::setw(4) << std::oct << i
-            << std::setw(4) << std::dec << i
-            << std::setw(4) << std::hex << i
-            << std::endl;
+        cout
+            << setw(4) << oct << i
+            << setw(4) << dec << i
+            << setw(4) << hex << i
+            << endl;
     }
     return 0;
 }

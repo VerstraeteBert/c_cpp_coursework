@@ -27,6 +27,7 @@ void delet_3nth(set<int> & nums) {
     int n = 0;
     while (it != nums.end()) {
         if (n % 3 == 0) {
+            // erase geeft een it naar de volgende pos terug
             it = nums.erase(it);
         } else {
             it++;

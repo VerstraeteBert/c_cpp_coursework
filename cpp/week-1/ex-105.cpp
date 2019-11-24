@@ -10,11 +10,11 @@ typedef struct {
 
 template <typename T, typename E>
 T grootste (T [], int);
-int grootte(string);
+int grootte(const & string);
 double grootte(double);
-double grootte(persoon &);
+double grootte(const persoon &);
 void initialiseer(persoon &, string, int, double);
-void print(persoon &);
+void print(const persoon &);
 
 
 int main () {
@@ -32,7 +32,7 @@ int main () {
     print(p);
 }
 
-void print(persoon &pers) {
+void print(const persoon &pers) {
     cout << "Dit is " << pers.naam
         << " hij is " << pers.leeftijd << " jaar oud"
         << " en is " << pers.lengte << "m groot."
@@ -43,10 +43,6 @@ void initialiseer(persoon &pers, string name, int leeftijd, double lengte) {
     pers.naam = name;
     pers.leeftijd = leeftijd;
     pers.lengte = lengte;
-}
-
-double grootte(persoon & p) {
-    return p.lengte;
 }
 
 template <class T, class E>
@@ -67,6 +63,10 @@ double grootte(double el) {
     return el;
 }
 
-int grootte (string el) {
+int grootte (const string & el) {
     return el.length();
+}
+
+double grootte(const persoon & p) {
+    return p.lengte;
 }

@@ -13,6 +13,7 @@ int main () {
     return 0;
 }
 
+// default waarden niet herhalen
 void schrijf (const int arr [], int aantal, bool achterstevoren, char tussenteken) {
     if (aantal < 1) return;
     if (achterstevoren) {

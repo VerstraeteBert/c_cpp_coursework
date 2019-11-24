@@ -13,6 +13,7 @@ int main() {
         cout << "Failed to open line nums file";
         return 1;
     }
+
     set<int> sorted_line_nums;
     vector<int> print_order_vect;
     unordered_map<int, string> line_num_content_map;
@@ -49,6 +50,7 @@ int main() {
         line_num_content_map.insert({next_line_idx, line_content});
         line_nums_it++;
     }
+    bible.close();
 
     for (int line_idx : print_order_vect) {
         cout << line_num_content_map[line_idx] << endl;
