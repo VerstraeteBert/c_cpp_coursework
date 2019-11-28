@@ -47,7 +47,7 @@ int main() {
             next_line_diff--;
         }
 
-        line_num_content_map.insert({next_line_idx, line_content});
+        line_num_content_map[next_line_idx] = line_content;
         line_nums_it++;
     }
     bible.close();

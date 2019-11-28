@@ -6,5 +6,5 @@
  * d) int
  * e) vector<int> in order? -> set<int>
  * d) map<string, int>
- * e) map<string, vector<int>> -- in order? -> map<string, set<int>>
+ * e) unordered_map<string, vector<int>> -- in order? -> map<string, set<int>>
 */

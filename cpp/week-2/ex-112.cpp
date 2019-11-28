@@ -5,13 +5,21 @@
 
 using namespace std;
 
+//template <class T>
+//ostream& operator<<(ostream& out, const set<T> & s){
+//    typename set<T>::iterator it = s.begin();
+//    while (it != s.end()) {
+//        out << *it++ << " ";
+//    }
+//    out << endl;
+//    return out;
+//}
+
 template <class T>
 ostream& operator<<(ostream& out, const set<T> & s){
-    typename set<T>::iterator it = s.begin();
-    while (it != s.end()) {
-        out << *it++ << " ";
+    for (T el : s) {
+        out << el;
     }
-    out << endl;
     return out;
 }
 

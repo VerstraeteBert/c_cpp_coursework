@@ -9,6 +9,9 @@ int main() {
     cout << "Geef woorden in ajb:" << endl;
     string word;
     while (cin >> word && word != "STOP") {
+        // bij insertie geeft insert een paar terug;
+        // als second = true -> nieuw element
+        // second = false -> bestond al
         if (read.insert(word).second) {
             char_occ[word.front()]++;
         }
