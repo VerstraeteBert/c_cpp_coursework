@@ -12,7 +12,7 @@ ostream& operator<<(ostream&, const set<T> &);
 template <class T>
 ostream& operator<<(ostream&, stack<T>);
 template <class T, class G>
-ostream& operator<<(ostream&, map<T, G>);
+ostream& operator<<(ostream&, const map<T, G>&);
 template <class T>
 ostream& operator<<(ostream&, const vector<T> &);
 
@@ -47,9 +47,9 @@ ostream& operator<<(ostream& out, stack<T> s){
 }
 
 template <class T, class G>
-ostream& operator<<(ostream& out, const map<T, G> m){
-    for (pair<T, G> p : m) {
-        out << p.first << "->" << p.second << " ";
+ostream& operator<<(ostream& out, const map<T, G> & m){
+    for (pair<T,G> p : m) {
+        out << p.first << "->" <<  p.second << " ";
     }
     out << endl;
     return out;
