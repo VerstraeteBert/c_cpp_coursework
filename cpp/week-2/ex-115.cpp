@@ -40,7 +40,7 @@ void search (const string & word,
         return;
     }
 
-    for (string el : length_string_map[length_word - 1][length_word]) {
+    for (const string & el : length_string_map[length_word - 1][length_word]) {
         if (el.front() == first_char) {
             cout << el << " ";
         }
