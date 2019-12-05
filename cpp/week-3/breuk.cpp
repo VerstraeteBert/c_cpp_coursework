@@ -15,7 +15,7 @@ class Breuk {
 
     public:
         // constructor
-        Breuk(int teller, int noemer) {
+        Breuk(int teller, int noemer = 1) {
             if (noemer == 0) {
                 throw std::invalid_argument("noemer kan niet 0 zijn");
             }
@@ -23,8 +23,6 @@ class Breuk {
             _noemer = noemer;
             normaliseer();
         };
-        // let op, syntax!
-        Breuk(int teller) : Breuk(teller, 1) {}
         Breuk() {
             _teller = 0;
             _noemer = 0; // feeling invalid, might crash your program soon :)
