@@ -1,6 +1,4 @@
 #include <iostream>
-#include <vector>
-#include <memory>
 using namespace std;
 
 class Rechthoek {
@@ -40,7 +38,7 @@ void Rechthoek::print(ostream & out) const {
     out << "Rechthoek " << this->hoogte << " op " << this->basis << endl;
 }
 
-ostream& operator<<(ostream & out, const Rechthoek& rechthoek) {
+ostream& operator<<(ostream & out, Rechthoek& rechthoek) {
     rechthoek.print(out);
     return out;
 }
@@ -52,21 +50,11 @@ public:
     GekleurdeRechthoek();
     GekleurdeRechthoek(int, int, const string& = "onbekend");
 
-    void print(ostream&) const;
+    virtual void print(ostream&) const;
 };
 
 GekleurdeRechthoek::GekleurdeRechthoek() : Rechthoek() {
     this->kleur = "onbekend";
-};
-
-GekleurdeRechthoek::GekleurdeRechthoek(int basis, int hoogte, const string& kleur)
-        : Rechthoek(basis, hoogte) {
-    this->kleur = kleur;
-};
-
-void GekleurdeRechthoek::print(ostream& out) const {
-    Rechthoek::print(out);
-    out << " kleur: " << this->kleur << endl;
 };
 
 // afgeleid van Rechthoek; pas aan in hoofding
@@ -75,7 +63,7 @@ public:
     Vierkant();
     Vierkant(int);
 
-    void print(ostream&) const;
+    virtual void print(ostream&) const;
     // geen extra attributen voorzien!
 };
 
@@ -87,23 +75,31 @@ void Vierkant::print(ostream& out) const {
     out << "Vierkant " << this->hoogte << " op " << this->basis << endl;
 }
 
+class GekleurdVierkant : public Vierkant, public GekleurdeRechthoek {
+    // geen extra attributen voorzien!
+    public:
+        GekleurdVierkant() : Vierkant(), GekleurdeRechthoek() {};
+        void print(ostream&) const;
+};
+
+void GekleurdVierkant::print(ostream &) const {
+
+}
+
 int main () {
-    unique_ptr<Rechthoek> r2(new Rechthoek(4, 6));
-    unique_ptr<Rechthoek> gr1(new GekleurdeRechthoek());
-    unique_ptr<Rechthoek> gr3(new GekleurdeRechthoek(6, 9, "rood"));
-    unique_ptr<Rechthoek> v2(new Vierkant(10));
+    GekleurdVierkant gv1;
+        cout << GekleurdVierkant(gv1);
+    cout << "  oppervlakte: " << gv1.Vierkant::oppervlakte()
+         << "  omtrek: " << gv1.Vierkant::omtrek();
 
-    vector<unique_ptr<Rechthoek>> v;
-    v.push_back(move(r2));
-    v.push_back(move(gr1));
-    v.push_back(move(gr3));
-    v.push_back(move(v2));
-
-    for(size_t i = 0; i<v.size(); i++) {
-        cout << *(v[i]);
-        cout << " oppervlakte: " << v[i]->oppervlakte() << endl
-             << " omtrek: " << v[i]->omtrek() << endl;
-    }
-
+//    GekleurdVierkant gv2(12);
+//    gv2.print(cout);
+//    cout << "  oppervlakte: " << ...
+//    << "  omtrek: " << ...
+//
+//    GekleurdVierkant gv3(15,"geel");
+//    cout << gv3;
+//    cout << "  oppervlakte: " << ...
+//    << "  omtrek: " << ...
     return 0;
 }

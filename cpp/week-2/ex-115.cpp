@@ -15,8 +15,7 @@ int main() {
         size_t word_length = word.length();
 
         if (length_string_map.size() < word_length) {
-            length_string_map.resize(word_length,
-                    map<int, unordered_set<string>>());
+            length_string_map.resize(word_length);
         }
 
         length_string_map[word_length - 1][word_length].insert(word);

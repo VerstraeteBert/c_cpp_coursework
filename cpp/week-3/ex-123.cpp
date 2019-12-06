@@ -60,7 +60,7 @@ template <class T>
 Doos<T>& Doos<T>::operator=(Doos<T>& other) {
     cout << "toekenning" << endl;
 
-    if (&other  != this) {
+    if (&other == this) {
         return *this;
     }
 
