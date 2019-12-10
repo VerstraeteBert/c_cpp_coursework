@@ -35,7 +35,7 @@ int Rechthoek::omtrek() const {
 }
 
 void Rechthoek::print(ostream & out) const {
-    out << "Rechthoek " << this->hoogte << " op " << this->basis << endl;
+    out << "Rechthoek: " << this->hoogte << " op " << this->basis << endl;
 }
 
 ostream& operator<<(ostream & out, Rechthoek& rechthoek) {
@@ -82,7 +82,7 @@ Vierkant::Vierkant() : Rechthoek() {};
 Vierkant::Vierkant(int basis) : Rechthoek::Rechthoek(basis, basis) {}
 
 void Vierkant::print(ostream& out) const {
-    out << "Vierkant " << this->hoogte << " op " << this->basis << endl;
+    out << "Vierkant: zijde: " << this->basis << endl;
 }
 
 int main () {

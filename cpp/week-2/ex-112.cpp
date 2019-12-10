@@ -5,21 +5,13 @@
 
 using namespace std;
 
-//template <class T>
-//ostream& operator<<(ostream& out, const set<T> & s){
-//    typename set<T>::iterator it = s.begin();
-//    while (it != s.end()) {
-//        out << *it++ << " ";
-//    }
-//    out << endl;
-//    return out;
-//}
-
 template <class T>
 ostream& operator<<(ostream& out, const set<T> & s){
-    for (T el : s) {
-        out << el;
+    typename set<T>::const_iterator it = s.cbegin();
+    while (it != s.cend()) {
+        out << *it++ << " ";
     }
+    out << endl;
     return out;
 }
 
@@ -35,8 +27,10 @@ ostream& operator<<(ostream& out, stack<T> s){
 
 template <class T, class G>
 ostream& operator<<(ostream& out, map<T, G> m){
-    for (pair<T, G> p : m) {
+    typename map<T,G>::const_iterator it = m.cbegin();
+    while (it != m.cend()) {
         out << p.first << "->" << p.second << " ";
+        it++;
     }
     out << endl;
     return out;

@@ -6,7 +6,7 @@ using namespace std;
 void schrijf (const string tekst, const int * c, int size) {
     cout << tekst;
     for (int i = 0; i < size; i++) {
-        cout << c[i] << " ";
+        cout << setw(4) << c[i] << " ";
     }
     cout << endl;
 }

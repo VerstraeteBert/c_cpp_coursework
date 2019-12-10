@@ -33,11 +33,11 @@ int main() {
         return 1;
     }
 
-    set<int>::iterator line_nums_it = sorted_line_nums.begin();
+    set<int>::const_iterator line_nums_it = sorted_line_nums.cbegin();
     string line_content;
     int curr_pos = 0;
 
-    while (line_nums_it != sorted_line_nums.end()) {
+    while (line_nums_it != sorted_line_nums.cend()) {
         int next_line_idx = *line_nums_it;
         int next_line_diff = next_line_idx - curr_pos;
 

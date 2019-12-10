@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-class Rechthoek {
+class Rechthoek  {
 public:
     Rechthoek();
     Rechthoek(int, int);
@@ -35,7 +35,7 @@ int Rechthoek::omtrek() const {
 }
 
 void Rechthoek::print(ostream & out) const {
-    out << "Rechthoek " << this->hoogte << " op " << this->basis << endl;
+    out << "Rechthoek: " << this->hoogte << " op " << this->basis << endl;
 }
 
 ostream& operator<<(ostream & out, Rechthoek& rechthoek) {
@@ -44,26 +44,36 @@ ostream& operator<<(ostream & out, Rechthoek& rechthoek) {
 }
 
 // afgeleid van Rechthoek; pas aan in hoofding
-class GekleurdeRechthoek : public Rechthoek {
+class GekleurdeRechthoek : public virtual Rechthoek {
 public:
     string kleur;
     GekleurdeRechthoek();
     GekleurdeRechthoek(int, int, const string& = "onbekend");
 
-    virtual void print(ostream&) const;
+    void virtual print(ostream&) const;
 };
 
 GekleurdeRechthoek::GekleurdeRechthoek() : Rechthoek() {
     this->kleur = "onbekend";
 };
 
+GekleurdeRechthoek::GekleurdeRechthoek(int basis, int hoogte, const string& kleur)
+        : Rechthoek(basis, hoogte) {
+    this->kleur = kleur;
+};
+
+void GekleurdeRechthoek::print(ostream& out) const {
+    Rechthoek::print(out);
+    out << " kleur: " << this->kleur << endl;
+};
+
 // afgeleid van Rechthoek; pas aan in hoofding
-class Vierkant : public Rechthoek {
+class Vierkant : public virtual Rechthoek {
 public:
     Vierkant();
     Vierkant(int);
 
-    virtual void print(ostream&) const;
+    void virtual print(ostream&) const;
     // geen extra attributen voorzien!
 };
 
@@ -72,34 +82,58 @@ Vierkant::Vierkant() : Rechthoek() {};
 Vierkant::Vierkant(int basis) : Rechthoek::Rechthoek(basis, basis) {}
 
 void Vierkant::print(ostream& out) const {
-    out << "Vierkant " << this->hoogte << " op " << this->basis << endl;
+    out << "Vierkant: zijde: " << this->basis << endl;
 }
 
 class GekleurdVierkant : public Vierkant, public GekleurdeRechthoek {
-    // geen extra attributen voorzien!
     public:
-        GekleurdVierkant() : Vierkant(), GekleurdeRechthoek() {};
-        void print(ostream&) const;
+        GekleurdVierkant();
+        GekleurdVierkant(int);
+        GekleurdVierkant(int, const string&);
+
+        void print(ostream &) const;
+
+        friend ostream& operator<<(ostream &, const GekleurdVierkant&);
 };
 
-void GekleurdVierkant::print(ostream &) const {
+GekleurdVierkant::GekleurdVierkant() {};
 
+GekleurdVierkant::GekleurdVierkant(int zijde)  {
+    this-> basis = zijde;
+    this-> hoogte = zijde;
+};
+
+GekleurdVierkant::GekleurdVierkant(int zijde, const string & kleur)  {
+    this-> basis = zijde;
+    this->hoogte = zijde;
+    this->kleur = kleur;
+}
+
+ostream& operator<<(ostream& out, const GekleurdVierkant& vk) {
+    vk.print(out);
+    return out;
+}
+
+void GekleurdVierkant::print(ostream & out) const {
+    Vierkant::print(out);
+    out << "  Kleur: " << this-> kleur << endl;
 }
 
 int main () {
     GekleurdVierkant gv1;
-        cout << GekleurdVierkant(gv1);
-    cout << "  oppervlakte: " << gv1.Vierkant::oppervlakte()
-         << "  omtrek: " << gv1.Vierkant::omtrek();
+    gv1.print(cout);
+    cout << "  oppervlakte: " << gv1.oppervlakte() << endl
+         << "  omtrek: " << gv1.omtrek() << endl;
 
-//    GekleurdVierkant gv2(12);
-//    gv2.print(cout);
-//    cout << "  oppervlakte: " << ...
-//    << "  omtrek: " << ...
-//
-//    GekleurdVierkant gv3(15,"geel");
-//    cout << gv3;
-//    cout << "  oppervlakte: " << ...
-//    << "  omtrek: " << ...
+    GekleurdVierkant gv2(12);
+    gv2.print(cout);
+    cout << "  oppervlakte: " << gv2.oppervlakte() << endl
+    << "  omtrek: " << gv2.omtrek() << endl;
+
+    GekleurdVierkant gv3(15,"geel");
+    cout << gv3;
+    cout << "  oppervlakte: " << gv3.oppervlakte() << endl
+    << "  omtrek: " << gv3.omtrek() << endl;
+
     return 0;
 }

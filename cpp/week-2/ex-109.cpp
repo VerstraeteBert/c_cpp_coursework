@@ -5,12 +5,12 @@ using namespace std;
 void schrijf(const unique_ptr<string> s [], int aantal){
     cout<<endl;
     for(int i=0; i < aantal - 1; i++){
-        if (s[i] == NULL) {
+        if (s[i] == nullptr) {
             continue;
         }
         cout<<*(s[i])<<" - ";
     }
-    if (s[aantal - 1] != NULL) {
+    if (s[aantal - 1] != nullptr) {
         cout << *(s[aantal - 1]);
     }
 }

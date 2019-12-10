@@ -18,8 +18,9 @@ ostream& operator<<(ostream&, const vector<T> &);
 
 template <class T>
 ostream& operator<<(ostream& out, const unordered_set<T> & s){
-    typename set<T>::iterator it = s.begin();
-    while (it != s.end()) {
+    // initialisatie van een dependent type op een template ALTIJD preprenden met typename / class!!
+    typename set<T>::const_iterator it = s.cbegin();
+    while (it != s.cend()) {
         out << *it++ << " ";
     }
     out << endl;
@@ -28,8 +29,9 @@ ostream& operator<<(ostream& out, const unordered_set<T> & s){
 
 template <class T>
 ostream& operator<<(ostream& out, const set<T> & s){
-    typename set<T>::iterator it = s.begin();
-    while (it != s.end()) {
+    // initialisatie van een dependent type op een template ALTIJD preprenden met typename / class!!
+    typename set<T>::iterator it = s.cbegin();
+    while (it != s.cend()) {
         out << *it++ << " ";
     }
     out << endl;
