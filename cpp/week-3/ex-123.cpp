@@ -7,27 +7,21 @@ using namespace std;
 template <class T>
 class Doos {
     public:
+        Doos();
+        Doos(const Doos<T>&);
+        ~Doos();
+        Doos<T>& operator=(Doos<T>&);
+    private:
         vector<T> b;
         Doos<T> * c;
         unique_ptr<string> * d;
         size_t n;
-
-        Doos();
-        Doos(const Doos<T>&);
-        ~Doos();
-
-        Doos<T>& operator=(Doos<T>&);
 };
 
+// primitieve waardes zeker initialiseren (pointers, int enz) ; anders bevatten die garbage
+// b = vector<T>();
 template <class T>
-Doos<T>::Doos() {
-    cout << "creatie default" << endl;
-    // primitieve waardes zeker initialiseren ; anders bevatten die
-    // b = vector<T>();
-    c = nullptr;
-    n = 0;
-    d = nullptr;
-}
+Doos<T>::Doos() : n(0), c(nullptr), d(nullptr) {}
 
 template <class T>
 Doos<T>::Doos(const Doos& doos) : Doos() {
@@ -86,18 +80,20 @@ Doos<T>& Doos<T>::operator=(Doos<T>& other) {
     return *this;
 }
 
+
+
 template <class T>
 class Schijf {
     public:
-        Doos<T> * a;
         Schijf();
+        Schijf<T>& operator=(const Schijf<T> &);
         ~Schijf();
+    private:
+        Doos<T> * a;
 };
 
 template <class T>
-Schijf<T>::Schijf() {
-    a = nullptr;
-}
+Schijf<T>::Schijf() : a(nullptr) {};
 
 template <class T>
 Schijf<T>::~Schijf() {
@@ -106,8 +102,6 @@ Schijf<T>::~Schijf() {
 
 int main() {
     Doos<int> test;
-    test.n = 3;
-    cout << test.b.size() << endl;
     Doos<int> test2 = Doos<int>(test);
 
     cout << "declaratie test3" << endl;

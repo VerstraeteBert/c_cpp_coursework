@@ -26,14 +26,11 @@ public:
 };
 
 Persoon Groep::geef_extremum(function<bool(const Persoon &, const Persoon &)> comparator) const {
-    // wat als size == 0?
-    //if (this->size() == 0) return nullptr;
-
-    Persoon smallest = (*this)[0];
+    size_t extr  = 0;
     for (size_t i = 1; i < this->size(); i++) {
-        if (!comparator(smallest, (*this)[i])) smallest = (*this)[i];
+        if (!comparator(*this(ext), (*this)[i])) extr = (*this)[i];
     }
-    return smallest;
+    return (*this)[extr];
 }
 
 int main(){

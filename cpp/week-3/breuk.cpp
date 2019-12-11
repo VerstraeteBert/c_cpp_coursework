@@ -10,23 +10,16 @@ class Breuk {
     private:
         // private members, why?
         // Don't want users to set to invalid values (needs to be normalized and noemer not 0)
-        int _teller, _noemer;
+        int teller, noemer;
         void normaliseer();
 
     public:
         // constructor
-        Breuk(int teller, int noemer = 1) {
-            if (noemer == 0) {
-                throw std::invalid_argument("noemer kan niet 0 zijn");
-            }
-            _teller = teller;
-            _noemer = noemer;
+        Breuk(int t = 0, int n = 1) {
+            this->teller = t;
+            this->noemer = n;
             normaliseer();
         };
-        Breuk() {
-            _teller = 0;
-            _noemer = 0; // feeling invalid, might crash your program soon :)
-        }
 
         // operators
         Breuk operator+(const Breuk &) const;
@@ -54,24 +47,26 @@ class Breuk {
 };
 
 bool is_stambreuk(const Breuk& breuk) {
-    return breuk._teller == 1;
+    return breuk.teller == 1;
 }
 
 int Breuk::getTeller() const {
-    return _teller;
+    return teller;
 }
 
 int Breuk::getNoemer() const {
-    return _noemer;
+    return noemer;
 }
 
 Breuk Breuk::operator+(const Breuk & b) const {
-    int kgv = calc_kgv(_noemer, b._noemer);
-    return Breuk(_teller * (kgv / _noemer) + b._teller * (kgv / b._noemer), kgv);
+    return Breuk(b.noemer * teller + noemer * b.teller, noemer * b.noemer);
 }
 
 Breuk Breuk::operator+(int add) const {
-    return Breuk(_teller + (add * _noemer), _noemer);
+    Breuk c(*this);
+    add *= c.noemer;
+    c.teller += add;
+    return c;
 }
 
 Breuk operator+(int add, const Breuk & breuk) {
@@ -79,83 +74,87 @@ Breuk operator+(int add, const Breuk & breuk) {
 }
 
 Breuk& Breuk::operator+=(const Breuk & b) {
-    int kgv = calc_kgv(_noemer, b._noemer);
-    _teller = _teller * (kgv / _noemer) + b._teller * (kgv / b._noemer);
-    _noemer = kgv;
+    teller = b.noemer * teller + noemer * (b.teller);
+    noemer = noemer * b.noemer;
     normaliseer();
     return *this;
 }
 
 Breuk& Breuk::operator++() {
-    _teller += _noemer;
+    teller += noemer;
     normaliseer();
     return *this;
 }
 
 Breuk Breuk::operator++(int) {
     Breuk temp(*this);
-    ++(*this);
+    teller += noemer;
+    normaliseer();
     return temp;
 }
 
 Breuk Breuk::operator-(const Breuk & b) const {
-    int kgv = calc_kgv(_noemer, b._noemer);
-    return Breuk(_teller * (kgv / _noemer) - b._teller * (kgv / b._noemer), kgv);
+    return Breuk(b.noemer * teller - noemer * b.teller, noemer * b.noemer);
 }
 
 Breuk& Breuk::operator-=(const Breuk & b) {
-    int kgv = calc_kgv(_noemer, b._noemer);
-    _teller = _teller * (kgv / _noemer) - b._teller * (kgv / b._noemer);
-    _noemer = kgv;
-    normaliseer();
+    operator+=(-b);
     return *this;
 }
 
 Breuk& Breuk::operator--() {
-    _teller -= _noemer;
+    teller -= noemer;
     normaliseer();
     return *this;
 }
 
 Breuk Breuk::operator-() const {
-    return Breuk(-_teller, _noemer);
+    return Breuk(-teller, noemer);
 }
 
 // casten naar floats !!
 bool Breuk::operator<(const Breuk & comp) const {
-    return  (float) _teller / (float) _noemer < (float) comp._teller / (float) comp._noemer;
+    return  (float) teller / (float) noemer < (float) comp.teller / (float) comp.noemer;
 }
 
 bool Breuk::operator==(const Breuk & comp) const {
-    return _teller == comp._teller && _noemer == comp._noemer;
+    return teller == comp.teller && noemer == comp.noemer;
 }
 
 bool Breuk::operator!=(const Breuk & comp) const {
-    return !(*this == comp);
+    return !operator==(comp);
 }
 
 istream& operator>>(istream& is, Breuk& breuk) {
-    int read = scanf("%d/%d", &(breuk._teller), &(breuk._noemer));
-    if (read == 1) {
-        breuk._noemer = 1;
+    string lijn;
+    getline(is, lijn);
+    int teller, noemer;
+    size_t p = lijn.find("/");
+    if (p != string::npos) {
+        teller = atoi(lijn.substr(0, p).c_str());
+        noemer = atoi(lijn.substr(p+1).c_str());
+        breuk = Breuk(teller, noemer);
+    } else {
+        int getal = atoi(lijn.c_str());
+        breuk = Breuk(getal);
     }
-    breuk.normaliseer();
     return is;
 }
 
 void Breuk::normaliseer() {
-    if (_noemer < 0) {
-        _noemer = abs(_noemer);
-        _teller = _teller * -1;
+    if (noemer < 0) {
+        noemer = abs(noemer);
+        teller = teller * -1;
     }
 
-    int ggd = calc_ggd(_teller, _noemer);
-    _teller /= ggd;
-    _noemer /= ggd;
+    int ggd = calc_ggd(teller, noemer);
+    teller /= ggd;
+    noemer /= ggd;
 }
 
 ostream& operator<<(ostream & out, const Breuk & breuk) {
-    out << breuk._teller << "/" << breuk._noemer;
+    out << breuk.teller;
+    if (breuk.noemer != 1) cout << "/" << breuk.noemer;
     return out;
 };
 

@@ -35,15 +35,14 @@ void Langeslang<T>::vul(const vector<T>& v) {
 template <class T>
 Langeslang<T>& Langeslang<T>::concatenate(Langeslang & c) {
     size_t orig_size = this->size();
+    this->reserve(orig_size + c.size());
 
     if (&c == this) {
-        this->reserve(orig_size * 2);
         for (size_t i = 0; i < orig_size; i++) {
             this->push_back(make_unique<T>(*(*this)[i]));
         }
     } else {
         size_t concat_size = c.size();
-        this->reserve(orig_size + concat_size);
         for (size_t i = 0; i < concat_size; i++) {
             this->push_back(move(c[i]));
         }

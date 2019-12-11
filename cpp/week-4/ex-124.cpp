@@ -5,37 +5,33 @@ class Rechthoek {
 public:
     Rechthoek();
     Rechthoek(int, int);
-
-    int basis;
-    int hoogte;
-
     int oppervlakte() const;
     int omtrek() const;
     // virtual declareren als je een functie wilt overschrijven in afgeleide klassen
     void virtual print(ostream&) const;
     friend ostream& operator<<(ostream &, const Rechthoek&);
+private:
+    int basis;
+    // protected -> zelfde eigenschappen als private in de klasse waar het gedifinieerd is
+    // bij overerving worden deze ook toegankelijk voor verdere afleidingen !!
+protected:
+    int hoogte;
 };
 
-Rechthoek::Rechthoek() {
-    this->basis = 1;
-    this->hoogte = 1;
-}
+Rechthoek::Rechthoek() : basis(1), hoogte(1) {};
 
-Rechthoek::Rechthoek(int basis, int hoogte) {
-    this->basis = basis;
-    this->hoogte = hoogte;
-}
+Rechthoek::Rechthoek(int b, int h)  : basis(b), hoogte(h) {};
 
 int Rechthoek::oppervlakte() const {
-    return this->basis * this->hoogte;
+    return basis * hoogte;
 }
 
 int Rechthoek::omtrek() const {
-    return this->basis * 2 + this->hoogte * 2;
+    return (basis + hoogte) * 2;
 }
 
 void Rechthoek::print(ostream & out) const {
-    out << "Rechthoek: " << this->hoogte << " op " << this->basis << endl;
+    out << "Rechthoek: " << hoogte << " op " << basis << endl;
 }
 
 ostream& operator<<(ostream & out, Rechthoek& rechthoek) {
@@ -53,9 +49,7 @@ public:
     void print(ostream&) const;
 };
 
-GekleurdeRechthoek::GekleurdeRechthoek() : Rechthoek() {
-    this->kleur = "onbekend";
-};
+GekleurdeRechthoek::GekleurdeRechthoek() : Rechthoek(), kleur("onbekend") {};
 
 GekleurdeRechthoek::GekleurdeRechthoek(int basis, int hoogte, const string& kleur)
     : Rechthoek(basis, hoogte) {
@@ -64,25 +58,21 @@ GekleurdeRechthoek::GekleurdeRechthoek(int basis, int hoogte, const string& kleu
 
 void GekleurdeRechthoek::print(ostream& out) const {
     Rechthoek::print(out);
-    out << " kleur: " << this->kleur << endl;
+    out << "  kleur: " << this->kleur << endl;
 };
 
 // afgeleid van Rechthoek; pas aan in hoofding
 class Vierkant : public Rechthoek {
     public:
-        Vierkant();
-        Vierkant(int);
-
+        Vierkant(int = 1);
         void print(ostream&) const;
     // geen extra attributen voorzien!
 };
 
-Vierkant::Vierkant() : Rechthoek() {};
-
-Vierkant::Vierkant(int basis) : Rechthoek::Rechthoek(basis, basis) {}
+Vierkant::Vierkant(int zijde) : Rechthoek::Rechthoek(zijde, zijde) {}
 
 void Vierkant::print(ostream& out) const {
-    out << "Vierkant: zijde: " << this->basis << endl;
+    out << "Vierkant: zijde: " << hoogte << endl;
 }
 
 int main () {
