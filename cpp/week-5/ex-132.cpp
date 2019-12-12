@@ -6,22 +6,48 @@ using namespace std;
 
 template <class T>
 class Doos {
-    public:
-        Doos();
-        Doos(const Doos<T>&);
-        ~Doos();
-        Doos<T>& operator=(Doos<T>&);
-    private:
-        vector<T> b;
-        Doos<T> * c;
-        unique_ptr<string> * d;
-        size_t n;
+public:
+    Doos();
+    Doos(const Doos<T>&);
+    Doos(Doos<T>&&);
+    ~Doos();
+    Doos<T>& operator=(Doos<T>&);
+    Doos<T>& operator=(Doos<T>&&);
+
+private:
+    vector<T> b;
+    Doos<T> * c;
+    unique_ptr<string> * d;
+    size_t n;
 };
 
 // primitieve waardes zeker initialiseren (pointers, int enz) ; anders bevatten die garbage
 // b = vector<T>();
 template <class T>
-Doos<T>::Doos() : n(0), c(nullptr), d(nullptr) {}
+Doos<T>::Doos() : n(0), c(nullptr), d(nullptr) {};
+
+template <class T>
+Doos<T>::Doos(Doos<T>&& d2) : b(move(d2.b)), c(d2.c), d(d2.d), n(d2.n) {
+    d2.c = nullptr;
+    d2.d = nullptr;
+    d2.n = 0;
+};
+
+template <class T>
+Doos<T>& Doos<T>::operator=(Doos<T> && d2) {
+    if (this == d2) return *this;
+    delete c;
+    delete[] d;
+
+    b = move(d2.b);
+    c = d2.c;
+    d = d2.d;
+    n = d2.n;
+
+    d2.d = nullptr;
+    d2.c = nullptr;
+    d2.n = 0;
+}
 
 template <class T>
 Doos<T>::Doos(const Doos& doos) : Doos() {
@@ -82,20 +108,35 @@ Doos<T>& Doos<T>::operator=(Doos<T>& other) {
 
 template <class T>
 class Schijf {
-    public:
-        Schijf();
-        Schijf<T>& operator=(const Schijf<T> &);
-        ~Schijf();
-    private:
-        Doos<T> * a;
+public:
+    Schijf();
+    Schijf<T>& operator=(const Schijf<T> &);
+    ~Schijf();
+    Schijf<T>& operator=(Schijf<T>&& s);
+    Schijf(Schijf<T>&& s);
+private:
+    Doos<T> * a;
 };
 
 template <class T>
 Schijf<T>::Schijf() : a(nullptr) {};
 
 template <class T>
+Schijf<T>::Schijf(Schijf<T>&& s) {
+    a = s.a;
+    s.a = nullptr;
+};
+
+template <class T>
 Schijf<T>::~Schijf() {
     delete a;
+}
+
+template <class T>
+Schijf<T>& Schijf<T>::operator=(Schijf<T>&& s) {
+    if (this == &s) return *this;
+    a = s.a;
+    s.a = nullptr;
 }
 
 int main() {

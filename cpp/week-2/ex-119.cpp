@@ -23,7 +23,8 @@ int main() {
 }
 
 void delet_3nth(set<int> & nums) {
-    set<int>::iterator it = nums.begin();
+    // set<int>::iterator it = nums.begin();
+    auto it = nums.begin();
     int n = 0;
     while (it != nums.end()) {
         if (n % 3 == 0) {
