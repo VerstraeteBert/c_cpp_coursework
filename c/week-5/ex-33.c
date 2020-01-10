@@ -2,23 +2,26 @@
 #include <string.h>
 #include <stdlib.h>
 
-const int MAX_SIZE = 1000;
+const int MAX_SIZE = 5;
 
-char * lees () {
-    char read [MAX_SIZE];
-    fgets(read, MAX_SIZE, stdin);
-    fflush(stdin);
-    char * p_str = (char *) malloc(strlen(read) + 1);
-    if (p_str == NULL) return NULL;
-    strcpy(p_str, read);
-    return p_str;
+char * lees();
+
+int main(void) {
+    char * ingelezen = lees();
+    printf("%s", ingelezen);
+    free(ingelezen);
 }
 
-int main () {
-    int i;
-    for (i = 0; i < 5; i++) {
-        char * tekst = lees();
-        printf("%s", tekst);
-        free(tekst);
+char * lees() {
+    char temp[MAX_SIZE + 1];
+    fgets(temp, MAX_SIZE + 1, stdin);
+    fflush(stdin);
+    int len = strlen(temp);
+    if (temp[len - 1] == '\n') {
+        temp[len - 1] = '\0';
+        len--;
     }
+    char * res = (char *) malloc((len + 1) * sizeof(char));
+    strcpy(res, temp);
+    return res;
 }

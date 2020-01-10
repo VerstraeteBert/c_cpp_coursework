@@ -61,28 +61,31 @@ void delete_duplicates(node * pNode) {
 node * merge(node ** a, node ** b){
     node * dest_list;
     node * dest_node;
-    if (*a == NULL) {
+
+    // a is leeg
+    if (!(*a)) {
         dest_list = *b;
         *b = NULL;
         return dest_list;
     }
+    // b is leeg
     if (*b == NULL) {
         dest_list = *a;
         *b = NULL;
         return dest_list;
     }
 
+    // zelfde lijsten
     if (&(*a) == &(*b)) {
         dest_list = *a;
         *b = NULL;
         *a = NULL;
         return dest_list;
     }
-
+    //
     if ((*a)->value < (*b)->value) {
         dest_node = *a;
         *a = (*a)->next;
-
     } else {
         dest_node = *b;
         *b = (*b)->next;
@@ -90,7 +93,7 @@ node * merge(node ** a, node ** b){
 
     dest_list = dest_node;
 
-    while((*a) != 0 && (*b) != 0){
+    while(*a && *b){
         if((*a)->value < (*b)->value){
             dest_node->next = (*a);
             *a = (*a)->next;
@@ -112,6 +115,7 @@ node * merge(node ** a, node ** b){
         dest_node = dest_node->next;
         *b = (*b)->next;
     }
+
     return dest_list;
 }
 

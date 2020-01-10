@@ -2,7 +2,7 @@
 
 void process_input(int alpha_occurrences []) {
     char arr [4096];
-    scanf("%[^$]", &arr);
+    fgets(arr, 4096, stdin);
     int size = sizeof(arr) / sizeof(arr[0]);
     int i;
     for (i = 0; i < size && arr[i] != '\0'; i++) {

@@ -49,38 +49,47 @@ node * create_list(const int num, const int upper_bound) {
     return head;
 }
 
-void free_rec(int x, node **pNode) {
-    if (*pNode == NULL) return;
-    if ((*pNode)->value == x) {
-        node * temp = *pNode;
-        *pNode = (*pNode)->next;
+void delete(int x, node ** p_node) {
+    while (*p_node && (*p_node)->value < x) {
+        p_node = &((*p_node)->next);
+    }
+    node * temp;
+    if (*p_node && (*p_node)->value == x) {
+        temp = *p_node;
+        *p_node = (*p_node)->next;
         free(temp);
-    } else {
-        delete_rec(x, &((*pNode)->next));
     }
 }
 
-//void delete(int x, node **pNode) {
-//    while (*pNode && (*pNode)->value < x) {
-//        pNode = &((*pNode)->next);
-//    }
-//
-//    if (*pNode && (*pNode)->value == x) {
-//        node * temp = *pNode;
-//        (*pNode) = (*pNode)->next;
-//        free(temp);
-//    }
-//}
-//
+void delete_rec(int x, node ** pNode) {
+    if (*pNode) {
+        if (*pNode && (*pNode)->value == x) {
+            node * temp = *pNode;
+            *pNode = (*pNode)->next;
+            free(temp);
+        } else {
+            delete_rec(x, &((*pNode)->next));
+        }
+    }
+}
+
+void free_rec(node ** p_node) {
+    if (!*p_node) return;
+    free_rec(&((*p_node)->next));
+    printf("Freeing %d\n", (*p_node)->value);
+    free(*p_node);
+}
 
 int main() {
     srand(time(NULL));
     node * pList = create_list(10, 100);
     add_value(20, &pList);
     add_value(50, &pList);
+    add_value(92, &pList);
     add_value(120, &pList);
     print_list(pList);
     delete_rec(50, &pList);
+    delete_rec(92, &pList);
     delete_rec(120, &pList);
     delete_rec(20, &pList);
     print_list(pList);

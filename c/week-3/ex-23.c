@@ -2,12 +2,10 @@
 
 int * idx_of(int haystack [], size_t size, int needle) {
     size_t i;
-    for (i = 0; i < size; i++) {
-        if (haystack[i] == needle) {
-            return &haystack[i];
-        }
+    while (i < size && haystack[i] != needle) {
+        i++;
     }
-    return NULL;
+    return (i == size) ? NULL : &haystack[i];
 }
 
 void print_arr(const int * arr, size_t size) {
@@ -19,13 +17,12 @@ void print_arr(const int * arr, size_t size) {
     printf("\n");
 }
 
-void move_ptr_to_num(int **ptr, size_t size, int needle) {
-    int i = 0;
-    while (i < size && **ptr != needle) {
+void move_ptr_to_num(int ** ptr, size_t len, int needle) {
+    size_t i = 0;
+    while (i < len && **ptr != needle) {
         (*ptr)++;
-        i++;
     }
-    if (i == size) *ptr = NULL;
+    if (i == len) *ptr = NULL;
 }
 
 int main() {

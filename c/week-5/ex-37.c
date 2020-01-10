@@ -1,120 +1,94 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-typedef struct Numerator {
-    int value;
-    int num_divisors;
-    int * divisors;
-} Numerator;
+typedef struct {
+    int waarde, aantal_delers;
+    int * delers;
+} Deeltal;
 
-void write_ints(int * arr, size_t size) {
+void schrijf_ints(const int *, int);
+void schrijf_deeltal(const Deeltal *);
+int aantal_delers_van(int);
+int * delers_van(int);
+void lees_deeltal(Deeltal *);
+void lees_deeltallen(Deeltal *, size_t);
+void schrijf_deeltallen(const Deeltal *, size_t);
+void free_deeltallen(Deeltal *, size_t);
+
+int main(void) {
+    Deeltal * p_deeltallen = (Deeltal *) malloc(sizeof(Deeltal) * 4);
+    lees_deeltallen(p_deeltallen, 4);
+    schrijf_deeltallen(p_deeltallen, 4);
+    free_deeltallen(p_deeltallen, 4);
+    free(p_deeltallen);
+}
+
+void schrijf_ints(const int * p_ints, int aant) {
     size_t i;
-    for (i = 0; i < size; i++) {
-        printf("%d", arr[i]);
-        if (i + 1 < size) {
-            printf("-");
-        }
+    printf("%d", p_ints[0]);
+    for (i = 1; i < aant; i++) {
+        printf("-%d", p_ints[i]);
     }
+}
+
+void schrijf_deeltal(const Deeltal * p_dt) {
+    printf("%d  ", p_dt->waarde);
+    schrijf_ints(p_dt->delers, p_dt->aantal_delers);
     printf("\n");
 }
 
-void write_numerator(const Numerator * pNumerator) {
-    if (pNumerator == NULL) {
-        return;
-    }
-    printf("%d\t", pNumerator->value);
-    write_ints(pNumerator->divisors, pNumerator->num_divisors);
-}
-
-int num_divisors_of(int x) {
-    int i;
-    int upper_bound = x % 2 == 0 ? x / 2 : (x / 2) + 1;
-    int num_demons = 0;
-    for (i = 1; i <= upper_bound; i++) {
-        if (x % i == 0) num_demons++;
-    }
-    return num_demons;
-}
-
-int * divisors_of(int x, int num_divs) {
-    int * divs = malloc(num_divs * sizeof(int));
-    int curr_div = 0; int i;
-    int upper_bound = x % 2 == 0 ? x / 2 : (x / 2) + 1;
-    for (i = 1; i <= upper_bound; i++) {
+int aantal_delers_van(int x) {
+    int i; int num_delers = 0;
+    for (i = 1; i <= (x / 2); i++) {
         if (x % i == 0) {
-            divs[curr_div] = i;
-            curr_div++;
+            num_delers++;
         }
     }
-    return divs;
+    return num_delers;
 }
 
-Numerator * read_numerator() {
-    Numerator * pNumerator = malloc(sizeof(Numerator));
-    printf("ptr = %p\n", (void *) pNumerator);
-    printf("Geef een geheel getal in: \n");
-    scanf("%d", &pNumerator->value);
-    fflush(stdin);
-    pNumerator->num_divisors=num_divisors_of(pNumerator->value);
-    pNumerator->divisors=divisors_of(pNumerator->value, pNumerator->num_divisors);
-    return pNumerator;
-}
-
-Numerator ** read_numerators(Numerator ** pNumerators, int size) {
-    int i = 0;
-    for(i = 0; i < size; i++) {
-        pNumerators[i] = read_numerator();
-    }
-    return pNumerators;
-}
-
-void write_numerators(Numerator ** pNumerators, int size) {
-    int i;
-    for (i = 0; i < size; i++) {
-        write_numerator(pNumerators[i]);
-    }
-}
-
-void free_numerator(Numerator * pNumerator) {
-    printf("Now that she had nothing to lose, she was free. %d\n", pNumerator->value);
-    printf("ptr = %p\n", (void *) pNumerator);
-    free(pNumerator->divisors);
-    free(pNumerator);
-}
-
-void free_numerators(Numerator ** pNumerators, int size) {
-    int i;
-    for (i = 0; i < size; i++) {
-        free_numerator(pNumerators[i]);
-    }
-    free(pNumerators);
-}
-
-Numerator * search(int value, Numerator ** pNumerators, int size) {
-    int i;
-    for (i = 0; i < size; i++) {
-        if (pNumerators[i]->value == value) {
-            return pNumerators[i];
+int * delers_van(int x) {
+    int num_delers = aantal_delers_van(x);
+    int * delers = (int *) malloc(num_delers * sizeof(int));
+    int idx_deler = 0; int j;
+    for (j = 1; j <= x / 2; j++) {
+        if (x % j == 0) {
+            delers[idx_deler] = j;
+            idx_deler++;
         }
     }
-    return NULL;
+    return delers;
 }
 
-int main () {
-    Numerator * pNumerator = read_numerator();
-    write_numerator(pNumerator);
-    printf("Alé tis goed, hoeveel moeje en?\n");
-    int num_nums;
-    scanf("%d", &num_nums);
-    fflush(stdin);
-    Numerator ** pNumerators = malloc(num_nums * sizeof(Numerator *));
-    read_numerators(pNumerators, num_nums);
-    write_numerators(pNumerators, num_nums);
-    Numerator * pSearchNum = search(5, pNumerators, num_nums);
-    if (pSearchNum) {
-        printf("We got em bwois: %d\n", pSearchNum->value);
+void lees_deeltal(Deeltal * deeltal) {
+    int waarde;
+    printf("Geef een strikt positieve waarde in voor het deeltal: \n");
+    while (scanf("%d", &waarde) == 0 || waarde < 0) {
+        printf("FOUT: geef een strikt positieve waarde in voor het deeltal: \n");
+        fflush(stdin);
     }
-    free_numerator(pNumerator);
-    free_numerators(pNumerators, num_nums);
-    return 0;
+    deeltal->waarde = waarde;
+    deeltal->delers = delers_van(waarde);
+    deeltal->aantal_delers = aantal_delers_van(waarde);
+}
+
+void lees_deeltallen(Deeltal * deeltallen, size_t aantal) {
+    size_t i;
+    for (i = 0; i < aantal; i++) {
+        lees_deeltal(&deeltallen[i]);
+    }
+}
+
+void schrijf_deeltallen(const Deeltal * p_deeltallen, size_t aant) {
+    size_t i;
+    for (i = 0; i < aant; i++) {
+        schrijf_deeltal(&p_deeltallen[i]);
+    }
+}
+
+void free_deeltallen(Deeltal * p_deeltallen, size_t aant) {
+    size_t i;
+    for (i = 0; i < aant; i++) {
+        free(p_deeltallen[i].delers);
+    }
 }

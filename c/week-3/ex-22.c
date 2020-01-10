@@ -17,25 +17,19 @@ void zoek_extremen(const int arr [], size_t n, int * min, int * max) {
     }
 }
 
-void zoek_extremen_rec_helper(const int* arr, size_t size, size_t curr_idx, int * min_ref, int * max_ref) {
-    if (curr_idx >= size) return;
-
-    if (*min_ref > arr[curr_idx]) {
-        *min_ref = arr[curr_idx];
+void zoek_extremen_rec(const int arr [], size_t n, int * min, int * max) {
+    if (lengte == 1) {
+        *min = rij[0];
+        *max = rij[0];
+    } else {
+        zoek_extremen_rec(arr, n - 1, min, max);
+        if (rij[lengte - 1] < *min) {
+            *min = rij[lengte - 1];
+        }
+        if (rij[lengte - 1] > *max) {
+            *max = rij[lengte - 1];
+        }
     }
-
-    if (*max_ref < arr[curr_idx]) {
-        *max_ref = arr[curr_idx];
-    }
-
-    zoek_extremen_rec_helper(arr, size, curr_idx + 1, min_ref, max_ref);
-}
-
-void zoek_extremen_rec(const int * arr, size_t size, int *min_ref, int * max_ref) {
-    if (size == 0) return;
-    size_t curr_idx = 1;
-    *min_ref = arr[0]; *max_ref = arr[0];
-    zoek_extremen_rec_helper(arr, size, curr_idx, min_ref, max_ref);
 }
 
 int main() {

@@ -22,7 +22,7 @@ void schrijf(const int * t, int aantal) {
     printf("\n");
 }
 
-void vul_array(const int *, const int *, int *, size_t, int(*)(int, int));
+void vul_array(const int * src_1, const int * src_2, int * dest, size_t len, int(*)(int, int));
 
 int main(){
     int a[AANTAL];
@@ -43,9 +43,9 @@ int main(){
     return 0;
 }
 
-void vul_array(const int * a, const int * b, int * c, size_t size, int(*cb)(int, int)) {
+void vul_array(const int * src_1, const int * src_2, int * dest, size_t len, int(*cb)(int, int)) {
     size_t i;
-    for (i = 0; i < size; i++) {
-        c[i] =  cb(a[i], b[i]);
+    for (i = 0; i < len; i++) {
+        dest[i] = cb(src_1[i], src_2[i]);
     }
 }

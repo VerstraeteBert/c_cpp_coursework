@@ -1,53 +1,59 @@
 #include <stdio.h>
 
-void schrijf_arr(const void *, const size_t, const int, const char, void(*)(const void *));
-void write_string(const char **);
-void write_double(const double *);
-void write_int(const int *);
+void schrijf_int(const int * get) {
+    printf("%d", *get);
+}
 
-int main() {
-    char * namen[] = {"Evi","Jaro","Timen","Youri","Ashaf","Jennifer"};
-    int leeftijden[] = {21,30,18,14,22,19};
-    double scores[] = {0.5,1.6,8.2,-2.4};
+void schrijf_cstring(const char * const * str) {
+    printf("%s", *str);
+}
 
-    schrijf_arr(leeftijden,
+void schrijf_double(const double * db) {
+    printf("%.1f", *db);
+}
+
+
+void schrijf_array(const void *, size_t, size_t, char, void(*)(const void*));
+
+int main(void) {
+    char * namen [] = {"Evi", "Jaro", "Timen", "Youri",  "Ashaf", "Jennifer"};
+    int leeftijden [] = {21, 30, 18, 14, 22, 19};
+    double scores [] = {0.5, 1.6, 8.2, -2.4};
+
+    schrijf_array(
+            leeftijden,
             sizeof(leeftijden) / sizeof(leeftijden[0]),
             sizeof(leeftijden[0]),
-            '%',
-                (void (*)(const void *)) write_int);
-    schrijf_arr(scores,
-                sizeof(scores) / sizeof(scores[0]),
-                sizeof(scores[0]),
-                ' ',
-                 (void (*)(const void *)) write_double);
-    schrijf_arr(namen,
-                sizeof(namen) / sizeof(namen[0]),
-                sizeof(namen[0]),
-                '%',
-                (void (*)(const void *)) write_string);
+            ',',
+            (void(*)(const void*)) schrijf_int
+            );
+
+    schrijf_array(
+            scores,
+            sizeof(scores) / sizeof(scores[0]),
+            sizeof(scores[0]),
+            '$',
+            (void(*)(const void*)) schrijf_double
+    );
+
+    schrijf_array(
+            namen,
+            sizeof(namen) / sizeof(namen[0]),
+            sizeof(namen[0]),
+            '$',
+            (void(*)(const void*)) schrijf_cstring
+    );
+
+    return 0;
 }
 
-void schrijf_arr(const void * ptr, const size_t size, const int data_width,
-        const char seperator, void (*write_func)(const void *)) {
-
-    const char * arr = (char *) ptr;
+void schrijf_array(const void * t, size_t aantal, size_t grootte, char tussenteken, void(*schrijf)(const void*)) {
+    const char * arr = (const char *) t;
     size_t i;
-    write_func(arr);
-    for(i = 1; i < size; i++) {
-        printf("%c", seperator);
-        write_func(arr + i * data_width);
+    schrijf(arr);
+    for (i = 1; i < aantal; i++) {
+        printf("%c", tussenteken);
+        schrijf(arr + (grootte * i));
     }
-    printf("\n");
-}
-
-void write_string(const char ** p_str) {
-    printf("%s", *p_str);
-}
-
-void write_double(const double * p_double) {
-    printf("%.1f", *p_double);
-}
-
-void write_int(const int * p_int) {
-    printf("%d", *p_int);
+    puts("\n");
 }

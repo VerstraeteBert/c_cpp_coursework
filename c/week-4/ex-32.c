@@ -1,64 +1,40 @@
 #include <stdio.h>
 #include <string.h>
 
-void greet(char * names [], int size);
-void greet_printer(char * name);
-void initcap(char * str);
-char * alpha_smallest(char * [], int);
-
-int main (int argc, char * argv []) {
-    if (argc < 1) {
-        greet_printer("allemaal");
-    } else {
-        greet(argv + 1, argc - 1);
+void my_tupper(char * s) {
+    if (s[0] >= 'a' && s[0] <= 'z') {
+        s[0] = 'A' +  (s[0] - 'a');
     }
-    return 0;
-}
-
-void initcap(char * str) {
-    if (str == NULL) return;
-
-    size_t i = 0;
-    if (str[i] && (str[i] >= 'a' && str[i] <= 'z')) {
-        str[i] += ('A' - 'a');
-    }
-    i++;
-    while(str[i]) {
-        if (str[i] >= 'A' &&  str[i] <= 'Z') {
-            str[i] += ('a' - 'A');
+    int i = 1;
+    while (s[i]) {
+        if (s[i] >= 'A' && s[i] <= 'Z') {
+            s[i] = 'a' + (s[i] - 'A');
         }
         i++;
     }
 }
 
-char * alpha_smallest(char * strings [], int size) {
-    if (strings == NULL) return NULL;
-    char * smallest = strings[0];
-    int i;
-    for (i = 1; i < size; i++) {
-        if (strcmp(smallest, strings[i]) > 0) {
-            smallest = strings[i];
+const char * alfab_kleinste(const char * const * p_strings, size_t aant) {
+    const char * smallest = p_strings[1];
+    size_t i;
+    for (i = 2; i < aant; i++) {
+        if (strcmp(smallest, p_strings[i]) > 0) {
+            smallest = p_strings[i];
         }
     }
     return smallest;
 }
 
-void greet_printer(char * name) {
-    printf("Dag %s!\n", name);
-}
-
-void greet(char * names [], int size) {
-    if (size == 0) {
-        greet_printer("allemaal");
-        return;
-    }
-
+int main(int argc, char * argv []) {
     int i;
-    for (i = 0; i < size; i++) {
-        initcap(names[i]);
+    const char * kleinste;
+    if (argc == 1) {
+        printf("Dag allemaal!\n");
+    } else {
+        for (i = 1; i < argc; i++) {
+            my_tupper(argv[i]);
+        }
+        kleinste = alfab_kleinste((const char * const *) argv + 1, argc - 1);
+        printf("Dag %s!", kleinste);
     }
-
-    char * smallest = alpha_smallest(names, size);
-
-    greet_printer(smallest);
 }

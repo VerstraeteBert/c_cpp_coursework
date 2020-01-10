@@ -15,7 +15,7 @@ int main() {
     int size = sizeof(haystack) / sizeof(haystack[0]);
     double needle;
     while (scanf("%lf", &needle)==0) {
-        while (getchar () != '\n');
+        fflush(stdin);
         printf("Please enter a real number !\n");
     }
     printf("%d", index_of(haystack, needle, size));

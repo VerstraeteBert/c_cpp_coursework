@@ -1,30 +1,24 @@
 #include <stdio.h>
 
-void verzetNaarEersteHoofdletter(const char ** s) {
-    while (**s != '\0') {
-        if (**s >= 'A' && **s <= 'Z') {
-            return;
-        }
-        (*s)++;
-    }
-}
-
-const char * pointerNaarEersteKleineLetter(const char * s) {
-    const char * p = s;
-    while (*p != '\0') {
-        if (*p >= 'a' && *s <= 'z') {
-            return p;
-        }
-        p++;
-    }
-    return p;
-}
-
-void schrijf(const char * left, const char * right) {
-    while(left != right) {
-       printf("%c", *left++);
+void schrijf(const char * begin, const char * eind) {
+    while (begin != eind) {
+        printf("%c", *begin);
+        begin++;
     }
     printf("\n");
+}
+
+const char * pointerNaarEersteKleineLetter(const char * ptr) {
+    while (*ptr != '\0' && !(*ptr >= 'a' && *ptr <= 'z')) {
+        ptr++;
+    }
+    return ptr;
+}
+
+void verzetNaarEersteHoofdletter(const char ** ptr) {
+    while (**ptr != '\0' && !(**ptr >= 'A' && **ptr <= 'Z')) {
+        (*ptr)++;
+    }
 }
 
 int main(){
