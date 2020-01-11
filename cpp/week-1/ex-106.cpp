@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void schrijf(const int [], int, bool = false, char =  ' ');
+void schrijf(const int ints [], int len, bool achterstevoren = false, char tussenteken = ' ');
 
 int main () {
     int t [] = {1, 3, 5, 7, 9, 11, 13};
@@ -13,20 +13,16 @@ int main () {
     return 0;
 }
 
-// default waarden niet herhalen
-void schrijf (const int arr [], int aantal, bool achterstevoren, char tussenteken) {
-    if (aantal < 1) return;
-    if (achterstevoren) {
-        cout << arr[aantal - 1];
-        for (int i = aantal - 2; i >= 0; i--) {
-            cout << tussenteken;
-            cout << arr[i];
+void schrijf(const int ints [], int len, bool achterstevoren, char tussenteken) {
+    if (!achterstevoren) {
+        cout << ints[0];
+        for (int i = 1; i < len; i++) {
+            cout << tussenteken << ints[i];
         }
     } else {
-        cout << arr[0];
-        for (int i = 1; i < aantal; i++) {
-            cout << tussenteken;
-            cout << arr[i];
+        cout << ints[len - 1];
+        for (int i = len - 2; i >= 0; i--) {
+            cout << tussenteken << ints[i];
         }
     }
     cout << endl;

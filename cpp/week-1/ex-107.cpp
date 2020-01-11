@@ -3,32 +3,23 @@
 
 using namespace std;
 
-int main () {
-    int freq [26] = { 0 };
-    ifstream inv; inv.open("../../fixtures/lord.txt");
+int main() {
+    ifstream inv("../../fixtures/lord.txt");
     if (!inv.is_open()) {
-        cout << "Openen niet gelukt";
+        cout << "Failed to open file." << endl;
         return 1;
     }
-    string line;
-    getline(inv, line);
+    int occurences [26] = { 0 };
+    char curr_char;
+    inv >> curr_char;
     while (!inv.fail()) {
-        int len = line.length();
-        for (int i = 0; i < len; i++) {
-            char curr = line[i];
-            if (curr >= 'a' && curr <= 'z') {
-                freq[curr - 'a']++;
-            }
+        if ('a' <= curr_char && curr_char <= 'z') {
+            occurences[curr_char - 'a']++;
         }
-        getline(inv, line);
-    }
-    inv.close();
-    if (!inv.eof()) {
-        cout << "Er ging iets fout tijdens het lezen van het bestand" << endl;
-        return 1;
+        inv >> curr_char;
     }
     for (int i = 0; i < 26; i++) {
-        cout <<  (char) ('a' + i) << ": " << freq[i] << endl;
+        cout << (char) ('a' + i) << ": " << occurences[i] << endl;
     }
-    return 0;
+    inv.close();
 }

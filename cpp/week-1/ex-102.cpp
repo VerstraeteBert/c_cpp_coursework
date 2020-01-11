@@ -3,14 +3,14 @@
 
 using namespace std;
 
-const int CEIL = 64;
+const int MAX = 64;
 
 int main() {
-    for (int i = 0; i <= CEIL; i++) {
-        cout
-            << setw(4) << oct << i
-            << setw(4) << dec << i
-            << setw(4) << hex << i
+    for (int i = 0; i < MAX; i++) {
+        cout << setw(3)
+            << oct << i << " "
+            << hex << i << " "
+            << dec << i
             << endl;
     }
     return 0;

@@ -6,67 +6,65 @@ typedef struct {
     string naam;
     int leeftijd;
     double lengte;
-} persoon;
+} Persoon;
 
-template <typename T, typename E>
-T grootste (T [], int);
-int grootte(const & string);
-double grootte(double);
-double grootte(const persoon &);
-void initialiseer(persoon &, string, int, double);
-void print(const persoon &);
+template <class T>
+T grootste(T arr [], int len);
 
+int grootte(const string& el);
+double grootte(double el);
+
+void initialiseer(Persoon & p, const string& naam, double lengte, int leeftijd);
+void print(const Persoon & p);
 
 int main () {
     double getallen[5] = {5.5, 7.7, 2.2, 9.9, 9.8};
     string woorden[3] = {"geloof", "hoop", "de liefde"};
-    cout << "Grootste woord is: " << grootste<string, int>(woorden, 3) << endl;
-    cout << "Het grootste getal is: " << grootste<double, double>(getallen, 5) << "." << endl;
+    cout << "Grootste woord is: " << grootste<string>(woorden, 3) << endl;
+    cout << "Het grootste getal is: " << grootste<double>(getallen, 5) << "." << endl;
 
-    persoon personen [3];
-    initialiseer(personen[0], "Bert", 22, 1.92);
-    initialiseer(personen[1], "Michiel", 21, 1.34);
-    initialiseer(personen[2], "Wim", 73, 1.72);
-    print(personen[2]);
-    persoon p = grootste<persoon, double>(personen, 3);
-    print(p);
-}
+    Persoon personen [3];
+    initialiseer(personen[0], "test", 1.91, 22);
+    initialiseer(personen[1], "test2", 1.81, 37);
+    initialiseer(personen[2], "test3", 1.92, 3);
 
-void print(const persoon &pers) {
-    cout << "Dit is " << pers.naam
-        << " hij is " << pers.leeftijd << " jaar oud"
-        << " en is " << pers.lengte << "m groot."
-        << endl;
-}
+    for (int i = 0; i < 3; i++) {
+        print(personen[i]);
+    }
+ }
 
-void initialiseer(persoon &pers, string name, int leeftijd, double lengte) {
-    pers.naam = name;
-    pers.leeftijd = leeftijd;
-    pers.lengte = lengte;
-}
-
-template <class T, class E>
-T grootste (T  arr [], int size) {
-    T grootste = arr[0];
-    E max_grootte = grootte(arr[0]);
-    for (int i = 1; i < size; i++) {
-        E curr_grootte = grootte(arr[i]);
-        if (max_grootte < curr_grootte) {
-            grootste = arr[i];
-            max_grootte = curr_grootte;
+template<class T>
+T grootste(T arr [], int len) {
+    T gr = arr[0];
+    for (int i = 1; i < len; i++) {
+        if (grootte(gr) < grootte(arr[i])) {
+            gr = arr[i];
         }
     }
-    return grootste;
+    return gr;
 }
 
 double grootte(double el) {
     return el;
 }
 
-int grootte (const string & el) {
-    return el.length();
+int grootte(const string& el) {
+    return el.size();
 }
 
-double grootte(const persoon & p) {
+int grootte(const Persoon & p) {
     return p.lengte;
+}
+
+void initialiseer(Persoon & p, const string& naam, double lengte, int leeftijd) {
+    p.naam = naam;
+    p.lengte = lengte;
+    p.leeftijd = leeftijd;
+}
+
+void print(const Persoon & p) {
+    cout << "Dit is " << p.naam
+         << ", hij/zij is " << p.lengte << "m groot"
+         << " en is " << p.leeftijd << " jaar oud."
+         << endl;
 }
