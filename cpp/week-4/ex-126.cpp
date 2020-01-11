@@ -3,30 +3,17 @@
 
 using namespace std;
 
-template <class T>
+template<class T>
 class mijn_vector : public vector<T> {
+    using vector<T>::vector;
+
     public:
-        // inherit constructors
-        using vector<T>::vector;
-
         void verdubbel(bool = false);
-
-        friend ostream& operator<<(ostream& out, const mijn_vector<T>& vect){
-            out << "[";
-            if (vect.size() != 0) {
-                out << " " << vect[0];
-            }
-            for (size_t i = 1; i < vect.size(); i++) {
-                out << " - " << vect[i];
-            }
-            out << " ]";
-            return out;
-        }
 };
 
-template <class T>
-void mijn_vector<T>::verdubbel(bool kopie) {
-    if (kopie) {
+template<class T>
+void mijn_vector<T>::verdubbel(bool dupl) {
+    if (dupl) {
         size_t orig_size = this->size();
         this->resize(this->size() * 2);
 
@@ -42,9 +29,18 @@ void mijn_vector<T>::verdubbel(bool kopie) {
         }
     } else {
         for (size_t i = 0; i < this->size(); i++) {
-            (*this)[i] = (*this)[i] * 2;
+            (*this)[i] = 2 * (*this)[i];
         }
     }
+}
+
+template<class T>
+ostream& operator<<(ostream& out, const vector<T>& vec) {
+    for (const T& el : vec) {
+        out << el << " ";
+    }
+    out << endl;
+    return out;
 }
 
 int main() {

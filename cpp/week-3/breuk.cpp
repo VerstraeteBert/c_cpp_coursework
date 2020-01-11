@@ -1,80 +1,61 @@
+#include <math.h>
 #include <stdexcept>
 #include <iostream>
+#include <string.h>
 
 using namespace std;
 
 int calc_ggd(int a, int b);
-int calc_kgv(int a, int b);
 
 class Breuk {
-    private:
-        // private members, why?
-        // Don't want users to set to invalid values (needs to be normalized and noemer not 0)
-        int teller, noemer;
-        void normaliseer();
+private:
+    int teller;
+    int noemer;
+    void normaliseer();
+public:
+    Breuk();
+    Breuk(int, int);
+    Breuk(int);
+    Breuk(const Breuk&);
 
-    public:
-        // constructor
-        Breuk(int t = 0, int n = 1) {
-            this->teller = t;
-            this->noemer = n;
-            normaliseer();
-        };
+    // operators
+    Breuk operator+(const Breuk&) const;
+    Breuk& operator+=(const Breuk&);
+    Breuk operator+(int) const;
+    Breuk& operator++();
+    Breuk operator++(int);
 
-        // operators
-        Breuk operator+(const Breuk &) const;
-        Breuk operator+(int) const;
-        Breuk& operator+=(const Breuk &);
-        Breuk& operator++();
-        Breuk operator++(int);
-        Breuk& operator-=(const Breuk &);
-        Breuk& operator--();
-        Breuk operator-() const;
-        Breuk operator-(const Breuk &) const;
-        bool operator<(const Breuk &) const;
-        bool operator==(const Breuk &) const;
-        bool operator!=(const Breuk &) const;
+    bool operator<(const Breuk&) const;
+    bool operator==(const Breuk&) const;
+    bool operator!=(const Breuk&) const;
 
-        // goeie moaten
-        friend Breuk operator+(int, const Breuk &);
-        friend istream& operator>>(istream&, Breuk&);
-        friend ostream& operator<<(ostream&, const Breuk&);
-        friend bool is_stambreuk(const Breuk &);
+    Breuk operator-() const;
+    Breuk operator-(const Breuk&) const;
+    Breuk& operator-=(const Breuk&);
 
-        // getters
-        int getTeller() const;
-        int getNoemer() const;
+    friend bool is_stambreuk(const Breuk&);
+
+    friend ostream& operator<<(ostream&, const Breuk&);
+    friend istream& operator>>(istream&, Breuk&);
 };
 
-bool is_stambreuk(const Breuk& breuk) {
-    return breuk.teller == 1;
+Breuk::Breuk(int teller, int noemer) : teller(teller), noemer(noemer) {
+    if (this->noemer == 0) throw domain_error("noemer kan niet 0 zijn");
+    normaliseer();
 }
 
-int Breuk::getTeller() const {
-    return teller;
-}
+Breuk::Breuk() : Breuk(1, 1) {};
 
-int Breuk::getNoemer() const {
-    return noemer;
-}
+Breuk::Breuk(int teller) : Breuk(teller, 1) {};
 
-Breuk Breuk::operator+(const Breuk & b) const {
+Breuk::Breuk(const Breuk& br) : Breuk(br.teller, br.noemer) {};
+
+Breuk Breuk::operator+(const Breuk &b) const {
     return Breuk(b.noemer * teller + noemer * b.teller, noemer * b.noemer);
 }
 
-Breuk Breuk::operator+(int add) const {
-    Breuk c(*this);
-    add *= c.noemer;
-    c.teller += add;
-    return c;
-}
-
-Breuk operator+(int add, const Breuk & breuk) {
-    return breuk + add;
-}
-
-Breuk& Breuk::operator+=(const Breuk & b) {
-    teller = b.noemer * teller + noemer * (b.teller);
+Breuk& Breuk::operator+=(const Breuk& b) {
+    teller = b.noemer * teller + noemer * b.teller;
     noemer = noemer * b.noemer;
     normaliseer();
     return *this;
@@ -93,52 +74,61 @@ Breuk Breuk::operator++(int) {
     return temp;
 }
 
-Breuk Breuk::operator-(const Breuk & b) const {
-    return Breuk(b.noemer * teller - noemer * b.teller, noemer * b.noemer);
+Breuk Breuk::operator+(int x) const {
+    Breuk c(*this);
+    c.teller += x * noemer;
+    return c;
 }
 
-Breuk& Breuk::operator-=(const Breuk & b) {
-    operator+=(-b);
-    return *this;
-}
-
-Breuk& Breuk::operator--() {
-    teller -= noemer;
-    normaliseer();
-    return *this;
+Breuk operator+(int x, const Breuk& b) {
+    return b + x;
 }
 
 Breuk Breuk::operator-() const {
     return Breuk(-teller, noemer);
 }
 
-// casten naar floats !!
-bool Breuk::operator<(const Breuk & comp) const {
-    return  (float) teller / (float) noemer < (float) comp.teller / (float) comp.noemer;
+Breuk Breuk::operator-(const Breuk& b) const {
+    return Breuk(b.noemer * teller - noemer * b.teller, noemer * b.noemer);
 }
 
-bool Breuk::operator==(const Breuk & comp) const {
-    return teller == comp.teller && noemer == comp.noemer;
+Breuk& Breuk::operator-=(const Breuk& b) {
+    teller = b.noemer * teller - noemer * b.teller;
+    noemer = noemer * b.noemer;
+    normaliseer();
+    return *this;
 }
 
-bool Breuk::operator!=(const Breuk & comp) const {
-    return !operator==(comp);
+bool Breuk::operator<(const Breuk& b) const {
+    return teller * b.noemer < noemer * b.teller;
 }
 
-istream& operator>>(istream& is, Breuk& breuk) {
+bool Breuk::operator==(const Breuk& b) const {
+    return (teller == b.teller) && (noemer == b.noemer);
+}
+bool Breuk::operator!=(const Breuk& b) const {
+    return !(b == *this);
+}
+
+ostream& operator<<(ostream & out, const Breuk& b) {
+    out << b.teller;
+    if (b.noemer != 1) out << "/" << b.noemer;
+    return out;
+}
+
+istream& operator>>(istream& in, Breuk& b) {
     string lijn;
-    getline(is, lijn);
-    int teller, noemer;
+    getline(in, lijn);
     size_t p = lijn.find("/");
     if (p != string::npos) {
-        teller = atoi(lijn.substr(0, p).c_str());
-        noemer = atoi(lijn.substr(p+1).c_str());
-        breuk = Breuk(teller, noemer);
+        int teller = atoi(lijn.substr(0,p).c_str());
+        int noemer = atoi(lijn.substr(p + 1).c_str());
+        b = Breuk(teller, noemer);
     } else {
         int getal = atoi(lijn.c_str());
-        breuk = Breuk(getal);
+        b = Breuk(getal);
     }
-    return is;
+    return in;
 }
 
 void Breuk::normaliseer() {
@@ -152,14 +142,8 @@ void Breuk::normaliseer() {
     noemer /= ggd;
 }
 
-ostream& operator<<(ostream & out, const Breuk & breuk) {
-    out << breuk.teller;
-    if (breuk.noemer != 1) cout << "/" << breuk.noemer;
-    return out;
-};
-
-int calc_kgv(int a, int b) {
-    return (a * b) / calc_ggd(a, b);
+bool is_stambreuk(const Breuk& b)  {
+    return b.noemer == 1;
 }
 
 int calc_ggd(int a, int b) {

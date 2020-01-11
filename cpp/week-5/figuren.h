@@ -10,6 +10,7 @@ public:
     virtual double omtrek() const = 0;
     virtual double oppervlakte() const = 0;
     virtual void schrijf_soort(ostream & out) const = 0;
+    virtual ~Figuur() {}
     friend ostream& operator<<(ostream& out, const Figuur & f){
         f.schrijf_soort(out);
         out<<" met omtrek "<<f.omtrek()<<" en oppervlakte "<<f.oppervlakte();
@@ -28,6 +29,7 @@ private:
     }
 public:
     Cirkel(double s):straal(s){}
+    virtual ~Cirkel() {}
     double omtrek()const{
         return 2*M_PI*straal;
     }
@@ -44,6 +46,7 @@ private:
     }
 public:
     Rechthoek(double l, double b):lengte(l),breedte(b){}
+    virtual ~Rechthoek() {}
     double omtrek()const{
         return 2*(lengte+breedte);
     }
@@ -59,4 +62,5 @@ private:
     }
 public:
     Vierkant(double z):Rechthoek(z,z){}
+    virtual ~Vierkant() {}
 };

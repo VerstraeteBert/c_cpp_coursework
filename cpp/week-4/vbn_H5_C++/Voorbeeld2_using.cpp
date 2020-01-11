@@ -14,7 +14,7 @@ class B : public A {
  public:
    using A::A; //wat indien je dit in commentaar zet?
    //wat indien je onderstaande constructor toevoegt?
-   //B(int vB = -3) : varB(vB) {} 
+   B(int vB = -3) : varB(vB) {}
    //wat indien je beide voorziet (using + constructor)?
    int getVarB() const;
  private:

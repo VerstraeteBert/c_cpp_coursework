@@ -1,28 +1,46 @@
 #include <iostream>
-#include <memory>
 #include <vector>
+
 using namespace std;
 
 class Rechthoek {
 public:
     Rechthoek();
     Rechthoek(int, int);
+
+    virtual ~Rechthoek() {};
+
     int oppervlakte() const;
     int omtrek() const;
-    // virtual declareren als je een functie wilt overschrijven in afgeleide klassen
-    void virtual print(ostream&) const;
-    friend ostream& operator<<(ostream &, const Rechthoek&);
+    virtual void print(ostream&) const;
 private:
     int basis;
-    // protected -> zelfde eigenschappen als private in de klasse waar het gedifinieerd is
-    // bij overerving worden deze ook toegankelijk voor verdere afleidingen !!
 protected:
     int hoogte;
 };
 
-Rechthoek::Rechthoek() : basis(1), hoogte(1) {};
+class GekleurdeRechthoek : public Rechthoek {
+public:
+    GekleurdeRechthoek();
+    GekleurdeRechthoek(int, int, const string& kleur = "onbekend");
+    void print(ostream&) const;
+private:
+    string kleur;
+};
 
-Rechthoek::Rechthoek(int b, int h)  : basis(b), hoogte(h) {};
+class Vierkant : public Rechthoek {
+public:
+    Vierkant(int = 1);
+    void print(ostream &out) const;
+};
+
+Rechthoek::Rechthoek() : basis(1), hoogte(1) {}
+
+Rechthoek::Rechthoek(int b, int h) : basis(b), hoogte(h) {}
+
+void Rechthoek::print(ostream& out) const {
+    out << "Rechthoek: " << basis << " op " << hoogte << endl;
+}
 
 int Rechthoek::oppervlakte() const {
     return basis * hoogte;
@@ -32,68 +50,42 @@ int Rechthoek::omtrek() const {
     return (basis + hoogte) * 2;
 }
 
-void Rechthoek::print(ostream & out) const {
-    out << "Rechthoek: " << hoogte << " op " << basis << endl;
-}
+GekleurdeRechthoek::GekleurdeRechthoek() : kleur("onbekend") {}
 
-ostream& operator<<(ostream & out, Rechthoek& rechthoek) {
-    rechthoek.print(out);
-    return out;
-}
-
-// afgeleid van Rechthoek; pas aan in hoofding
-class GekleurdeRechthoek : public Rechthoek {
-public:
-    string kleur;
-    GekleurdeRechthoek();
-    GekleurdeRechthoek(int, int, const string& = "onbekend");
-
-    void print(ostream&) const;
-};
-
-GekleurdeRechthoek::GekleurdeRechthoek() : Rechthoek(), kleur("onbekend") {};
-
-GekleurdeRechthoek::GekleurdeRechthoek(int basis, int hoogte, const string& kleur)
-        : Rechthoek(basis, hoogte) {
-    this->kleur = kleur;
-};
+GekleurdeRechthoek::GekleurdeRechthoek(int basis, int hoogte, const string &kleur) : Rechthoek(basis, hoogte), kleur(kleur) {};
 
 void GekleurdeRechthoek::print(ostream& out) const {
     Rechthoek::print(out);
-    out << "  kleur: " << this->kleur << endl;
-};
+    out << "  kleur:" << kleur << endl;
+}
 
-// afgeleid van Rechthoek; pas aan in hoofding
-class Vierkant : public Rechthoek {
-public:
-    Vierkant(int = 1);
-    void print(ostream&) const;
-    // geen extra attributen voorzien!
-};
-
-Vierkant::Vierkant(int zijde) : Rechthoek::Rechthoek(zijde, zijde) {}
+Vierkant::Vierkant(int zijde) : Rechthoek(zijde, zijde) {};
 
 void Vierkant::print(ostream& out) const {
-    out << "Vierkant: zijde: " << hoogte << endl;
+    out << "Vierkant: zijde " << hoogte << endl;
+}
+
+ostream& operator<<(ostream& out, const Rechthoek& rh) {
+    rh.print(out);
+    return out;
 }
 
 int main () {
-    unique_ptr<Rechthoek> r2(new Rechthoek(4, 6));
-    unique_ptr<Rechthoek> gr1(new GekleurdeRechthoek());
-    unique_ptr<Rechthoek> gr3(new GekleurdeRechthoek(6, 9, "rood"));
-    unique_ptr<Rechthoek> v2(new Vierkant(10));
+    Rechthoek r2(4,6);
+    GekleurdeRechthoek gr1;
+    GekleurdeRechthoek gr3(6,9,"rood");
+    Vierkant v2(10);
 
     vector<unique_ptr<Rechthoek>> v;
-    v.push_back(move(r2));
-    v.push_back(move(gr1));
-    v.push_back(move(gr3));
-    v.push_back(move(v2));
+    v.push_back(make_unique<Rechthoek>(4,6));
+    v.push_back(make_unique<GekleurdeRechthoek>());
+    v.push_back(make_unique<GekleurdeRechthoek>(6,9,"rood"));
+    v.push_back(make_unique<Vierkant>(10));
 
-    for(size_t i = 0; i<v.size(); i++) {
-        cout << *(v[i]);
+    for(size_t i=0 ; i < v.size() ; i++) {
+        cout << *v[i];
         cout << " oppervlakte: " << v[i]->oppervlakte() << endl
              << " omtrek: " << v[i]->omtrek() << endl;
     }
-
     return 0;
 }

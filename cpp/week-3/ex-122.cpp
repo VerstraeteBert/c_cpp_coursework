@@ -1,6 +1,6 @@
 #include <iostream>
 #include <set>
-#include "containers.h"
+#include "./containers.h"
 
 using namespace std;
 
@@ -11,55 +11,47 @@ private:
     string naam;
 
 public:
-    // constructors
-    Container(){};
-    Container(const T [], size_t, const string&);
-    Container(const set<T>&, const string&);
+    Container() { };
+    Container(const T[], size_t, const string&);
 
-    // operators
-    Container<T>& operator+=(const T&);
     Container<T> operator*(const Container<T>&) const;
+    Container<T>& operator+=(T);
 
-    // extraverte klasse
-    template <class U>
+    template <typename U>
     friend ostream& operator<<(ostream&, const Container<U>&);
 };
 
-template <class T>
-Container<T>::Container(const T arr [], size_t size, const string & _naam) : naam(_naam) {
-    for (size_t i = 0; i < size; i++) {
+template<class T>
+Container<T>::Container(const T arr [], size_t n, const string& naam) : naam(naam) {
+    for (size_t i = 0; i < n; i++) {
         elementen.insert(arr[i]);
     }
 }
 
-template <class T>
-Container<T>::Container(const set<T>& new_set, const string& new_naam) {
-    elementen = new_set;
-    naam = new_naam;
-};
+template<class T>
+Container<T> Container<T>::operator*(const Container<T>& c) const {
+    Container<T> res;
+    res.naam = "doorsnede " + naam + " en " + c.naam;
+    auto it = elementen.cbegin();
+    while (it != elementen.cend()) {
+        if (c.elementen.count(*it) != 0) {
+            res.elementen.insert(*it);
+        }
+        it++;
+    }
+    return res;
+}
 
 template<class T>
-Container<T>& Container<T>::operator+=(const T& val) {
-    elementen.insert(val);
+Container<T>& Container<T>::operator+=(T el) {
+    elementen.insert(el);
     return *this;
 }
 
-template <class T>
-Container<T> Container<T>::operator*(const Container<T> & comp) const {
-    Container<T> vv;
-    vv.naam = "doorsnede " + naam + " en " + comp.naam;
-    for (const T& elem : comp.elementen) {
-        if (elementen.find(elem) != elementen.end()) {
-            vv.insert(elem);
-        }
-    }
-    return vv;
-}
-
 template<class T>
-ostream& operator<<(ostream& out, const Container<T>& container) {
-    out << "*** set " << container.naam << " ***" << endl;
-    out <<  " { " << container.elementen << " } " << endl;
+ostream& operator<<(ostream& out, const Container<T>& c) {
+    out << "*** " << c.naam << " ***" << endl;
+    out << c.elementen << endl;
     return out;
 }
 

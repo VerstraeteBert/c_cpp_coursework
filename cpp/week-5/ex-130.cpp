@@ -2,36 +2,39 @@
 #include <fstream>
 #include <vector>
 #include <string>
-#include <cstring>
+#include <iostream>
+#include <stdexcept>
+
 using namespace std;
 
-class bestand_niet_lang_genoeg : public runtime_error {
+class bestand_niet_lang_genoeg : public invalid_argument {
     public:
-        bestand_niet_lang_genoeg(const string& filename, int len) : runtime_error(filename + " heeft geen " + to_string(len) + "regels") {};
-        bestand_niet_lang_genoeg(const string &what) : runtime_error(what) {};
+        bestand_niet_lang_genoeg(const string& message) : invalid_argument(message) {};
 };
 
-string regel_uit_bestand(const string& filename, size_t volgnr) {
-    ifstream in(filename);
-    if (!in.is_open()) {
-        throw string(filename + " kon niet geopend worden\n");
+
+string regel_uit_bestand(const string& bestandsnaam, int volg_nr) {
+    ifstream inv(bestandsnaam);
+    if (!inv.is_open()) {
+        throw bestandsnaam + " kon niet geopend worden.\n";
     }
 
-    string line;
-    getline(in, line);
-
+    string line; string magweg;
+    inv >> line;
+    getline(inv, magweg);
     if (line.find("VERHAAL") != 0) {
         throw line.c_str();
     }
 
-    size_t curr = 1;
-    while (curr <= volgnr && !in.fail()) {
-        getline(in, line);
-        curr++;
-        if (in.fail()) {
-            throw bestand_niet_lang_genoeg(filename, volgnr);
-        }
+    int curr_line_nr = 0;
+    while (!inv.fail() && curr_line_nr < volg_nr) {
+        getline(inv, line);
+        curr_line_nr++;
     }
+    if (inv.fail()) {
+        throw bestand_niet_lang_genoeg(bestandsnaam + " heeft geen " + to_string(volg_nr) + " regels.");
+    }
+
     return line;
 }
 
@@ -44,16 +47,18 @@ int main(){
     string bestanden_niet_lang_genoeg = "";
     string eerste_woorden = "";
 
-    for(size_t i=0; i<bestandsnamen.size(); i++){
+    for(size_t i = 0; i<bestandsnamen.size(); i++){
         try {
-            cout << regel_uit_bestand("../../fixtures/"+ bestandsnamen[i] +".txt",nrs[i]) << endl;
-        } catch(const bestand_niet_lang_genoeg& err) {
+            cout << regel_uit_bestand("../../fixtures/" + bestandsnamen[i] + ".txt", nrs[i]) << endl;
+        } catch (const bestand_niet_lang_genoeg& err) {
             bestanden_niet_lang_genoeg += err.what();
         } catch (const char * err) {
             eerste_woorden += err;
+            eerste_woorden += " ";
         } catch (const string& err) {
             bestanden_niet_gevonden += err;
         }
+
     }
 
     cout<<endl<<endl<<"BESTANDEN NIET GEVONDEN:"<<endl;
@@ -65,7 +70,7 @@ int main(){
     cout<<endl<<"BESTANDEN ZONDER STARTWOORD 'VERHAAL':"<<endl;
     cout<<"dit waren de woorden die er wel als eerste stonden:"<<endl<<endl;
 
-    cout<< eerste_woorden <<endl <<endl;
+    cout<<eerste_woorden<<endl<<endl;
 
     return 0;
 }
