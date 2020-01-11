@@ -21,38 +21,66 @@ void initialiseer(Persoon &pers, string name, int leeftijd, double lengte) {
     pers.lengte = lengte;
 }
 
-template <class T>
-ostream& operator<<(ostream& out, const vector<T> & vectors) {
-    cout << endl;
-    for (T x : vectors) {
-        cout << x << " ";
+void print(const vector<int>& vect) {
+    for (const int i : vect) {
+        cout << i << " ";
     }
+    cout << endl;
+}
+
+template <class T>
+void print(const vector<T>& vect) {
+    for (const T& el : vect) {
+        cout << el << " ";
+    }
+    cout << endl;
+}
+
+template <class T>
+ostream& operator<<(ostream& out, const vector<T>& vect) {
+    for (const T& el : vect) {
+        cout << el << " ";
+    }
+    cout << endl;
     return out;
 }
 
 int main() {
-    vector<int> vect_i;
-    vect_i.reserve(10);
+    vector<int> v_i;
+    v_i.reserve(10);
     for (int i = 0; i < 10; i++) {
-        vect_i.push_back(i);
+        v_i.push_back(i);
     }
-    cout << vect_i;
+    print(v_i);
+    cout << v_i;
 
-    vector<bool> vect_b = {true, false, true};
-    cout << vect_b;
+    vector<bool> v_b = {
+            true,
+            false,
+            true
+    };
+    print(v_b);
+    cout << v_b;
 
-    vector<double> vect_d = { 10.2, 30.49, -90.2};
-    cout << vect_d;
+    vector<string> v_s = {
+        "hanlonk",
+        "test"
+    };
+    print(v_s);
+    cout << v_s;
 
-    vector<Persoon> vect_p;
-    vect_p.reserve(1);
-    Persoon p;
-    initialiseer(p, "bert", 20, 30.56);
-    vect_p.push_back(p);
-    cout << vect_p;
+    vector<char> v_c = {
+        't',
+        'e',
+        's',
+        't'
+    };
+    print(v_c);
+    cout << v_c;
 
-    vector<vector<Persoon>> vector_v = { vect_p };
-    cout << vector_v;
-
+    vector<vector<string>> v_v = {
+            v_s,
+    };
+    cout << (v_v);
     return 0;
 }

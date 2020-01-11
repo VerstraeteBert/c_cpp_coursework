@@ -4,14 +4,13 @@ using namespace std;
 
 void schrijf(const unique_ptr<string> s [], int aantal){
     cout<<endl;
-    for(int i=0; i < aantal - 1; i++){
+    for(int i=0; i < aantal; i++){
         if (s[i] == nullptr) {
-            continue;
+            cout << "NULL";
+        } else {
+            cout << *s[i];
         }
-        cout<<*(s[i])<<" - ";
-    }
-    if (s[aantal - 1] != nullptr) {
-        cout << *(s[aantal - 1]);
+        cout << " - ";
     }
 }
 
@@ -22,17 +21,16 @@ void verwijder(unique_ptr<string> s [], int aantal, int volgnr){
     s[aantal-1].reset();  //laatste element leeg maken
 }
 
-int main(){
-    unique_ptr<string> pnamen []=
-            {
-                make_unique<string>(string("Rein")),
-                make_unique<string>(string("Ada")),
-                make_unique<string>(string("Eppo")),
-                make_unique<string>(string("Pascal")),
-                make_unique<string>(string("Ilse"))
-             };
-    schrijf(pnamen,5);
-    verwijder(pnamen,5,1);
-    schrijf(pnamen, 5); //alle namen tonen
+int main() {
+    unique_ptr<string> namen [] = {
+            make_unique<string>("Rein"),
+            make_unique<string>("Ada"),
+            make_unique<string>("Eppo"),
+            make_unique<string>("Pascal"),
+            make_unique<string>("Ilse")
+    };
+    schrijf(namen,5);
+    verwijder(namen,5,1);
+    schrijf(namen,5); //alle namen tonen
     return 0;
 }

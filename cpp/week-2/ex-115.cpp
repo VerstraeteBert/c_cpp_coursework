@@ -30,7 +30,7 @@ int main() {
 }
 
 void search (const string & word,
-        vector<map<int, unordered_set<string>>> & length_string_map) {
+             vector<map<int, unordered_set<string>>> & length_string_map) {
     char first_char = word.front();
     size_t length_word = word.length();
 

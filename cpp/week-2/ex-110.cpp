@@ -3,17 +3,17 @@
 
 using namespace std;
 
-void schrijf (const string tekst, const int * c, int size) {
-    cout << tekst;
-    for (int i = 0; i < size; i++) {
-        cout << setw(4) << c[i] << " ";
+void schrijf(const string& s, const int arr [], int len) {
+    cout << s;
+    for (int i = 0; i < len - 1; i++) {
+        cout << arr[i] << " , ";
     }
-    cout << endl;
+    cout << arr[len - 1] << endl;
 }
 
-void vul_array(const int * a, const int * b, int * c, size_t grootte, function<int (int, int)> func) {
-    for (size_t i = 0; i < grootte; i++) {
-        c[i] = func(a[i], b[i]);
+void vul_array(const int a [], const int b [], int c [], int len, function<int (int, int)> cb) {
+    for (int i = 0; i < len; i++) {
+        c[i] = cb(a[i], b[i]);
     }
 }
 
@@ -23,13 +23,19 @@ int main(){
     int b[] = {0,10,20,30,40,50,60,70,80,90};
     int c[GROOTTE];
 
-    vul_array(a,b,c,GROOTTE, [](int a, int b) { return a + b; });
+    vul_array(a,b,c,GROOTTE, [](int a, int b) -> int {
+        return a + b;
+    });
     schrijf("SOM:      ",c,GROOTTE);
 
-    vul_array(a,b,c,GROOTTE, [](int a, int b) { return a * b; });
+    vul_array(a,b,c,GROOTTE, [](int a, int b) -> int {
+        return a * b;
+    });
     schrijf("PRODUCT:  ",c,GROOTTE);
 
-    vul_array(a,b,c,GROOTTE, [](int a, int b) { return a - b; });
+    vul_array(a,b,c,GROOTTE, [](int a, int b) -> int {
+        return a - b;
+    });
     schrijf("VERSCHIL: ",c,GROOTTE);
 
     return 0;

@@ -5,50 +5,79 @@
 
 using namespace std;
 
+//template <class T>
+//ostream& operator<<(ostream& out, const set<T>& set) {
+//    for (auto& el : set) {
+//        cout << el << endl;
+//    }
+//    return out;
+//}
+// of met iterator
 template <class T>
-ostream& operator<<(ostream& out, const set<T> & s){
-    typename set<T>::const_iterator it = s.cbegin();
-    while (it != s.cend()) {
-        out << *it++ << " ";
-    }
-    out << endl;
-    return out;
-}
-
-template <class T>
-ostream& operator<<(ostream& out, stack<T> s){
-    while (!s.empty()) {
-        out << s.top() << " ";
-        s.pop();
-    }
-    out << endl;
-    return out;
-}
-
-template <class T, class G>
-ostream& operator<<(ostream& out, map<T, G> m){
-    typename map<T,G>::const_iterator it = m.cbegin();
-    while (it != m.cend()) {
-        out << p.first << "->" << p.second << " ";
+ostream& operator<<(ostream& out, const set<T>& cont) {
+    out << "printing set:" << endl;
+    // of auto it = cont.cbegin();
+    typename set<T>::const_iterator it = cont.cbegin();
+    while (it != cont.cend()) {
+        out << *it << " ";
         it++;
     }
     out << endl;
     return out;
 }
 
+// moet een kopie nemen v/d stack -> onmogelijk om te itereren zonder elementen weg te gooien
+template <class T>
+ostream& operator<<(ostream& out, stack<T> cont) {
+    out << "printing stack:" << endl;
+    while (!cont.empty()) {
+        out << cont.top() << " ";
+        cont.pop();
+    }
+    out << endl;
+    return out;
+}
+
+//template <class T, class G>
+//ostream& operator<<(ostream& out, const map<T,G>& cont) {
+//    out << "printing map:" << endl;
+//    // pair<T,G>& el : cont
+//    for (auto& el : cont) {
+//        out << el.first << " -> " << el.second << endl;
+//    }
+//    out << endl;
+//    return out;
+//}
+
+// of met iterator
+template <class T, class G>
+ostream& operator<<(ostream& out, const map<T,G>& cont) {
+    out << "printing map:" << endl;
+    typename map<T,G>::const_iterator it = cont.cbegin();
+    while (it != cont.cend()) {
+        out << it->first << " -> " << it->second << endl;
+        it++;
+    }
+    out << endl;
+    return out;
+}
+
+
 int main () {
-    set<int> set_test;
-    set_test.insert(1);
-    set_test.insert(2);
-    cout << set_test;
+    set<string> test;
+    test.insert("hallo");
+    test.insert("tweede");
+    cout << test;
 
-    stack<int> stack_test;
-    stack_test.push(2);
-    stack_test.push(1);
-    cout << stack_test;
+    stack<int> test_2;
+    test_2.push(1);
+    test_2.push(2);
+    cout << test_2;
+    cout << test_2;
 
-    map<int, string> map_test;
-    map_test[0] = "hanlo";
-    map_test[56789] = "bert";
-    cout << map_test;
+    map<string, int> test_3;
+    test_3.insert({"key_1", 1});
+    test_3.insert({"key_2", 2});
+    test_3.insert(pair<string, int>("key_2", 2));
+    cout << test_3;
 }

@@ -1,5 +1,6 @@
 #include <set>
 #include <unordered_set>
+#include <unordered_map>
 #include <stack>
 #include <map>
 #include <vector>
@@ -51,8 +52,19 @@ ostream& operator<<(ostream& out, stack<T> s){
 
 template <class T, class G>
 ostream& operator<<(ostream& out, const map<T, G> & m){
-    for (pair<T,G> p : m) {
+    if (m.empty()) out << "lege map";
+    for (pair<T,G>& p : m) {
         out << p.first << "->" <<  p.second << " ";
+    }
+    out << endl;
+    return out;
+}
+
+template <class T, class G>
+ostream& operator<<(ostream& out, const unordered_map<T,G> &m) {
+    if (m.empty()) out << "lege map";
+    for (auto &p : m) {
+        out << p.first << " -> " << p.second << " ";
     }
     out << endl;
     return out;
@@ -60,6 +72,7 @@ ostream& operator<<(ostream& out, const map<T, G> & m){
 
 template <class T>
 ostream& operator<<(ostream& out, const vector<T> & vectors) {
+    if (vectors.size() == 0) return out;
     cout << endl;
     for (T x : vectors) {
         cout << x << " ";
