@@ -50,22 +50,16 @@ node ** return_array_of_lists(size_t num) {
         word = read_word();
     }
 
-    // clean up
-    if (strcmp(word, "STOP") == 0) {
-        free(word);
-    }
-    for (i = 0; i < num; i++) {
-        tail_list[i] = NULL;
-    }
+    free(word);
+    free(tail_list);
 
     return head_list;
 }
 
-void append_word_to_tail(char * word, node ** curr_tail) {
-    node * new_tail = (node *) malloc(sizeof(node));
-    new_tail->data = word;
-    (*curr_tail)->next = new_tail;
-    (*curr_tail) = (*curr_tail)->next;
+void append_word_to_tail(char * word, node ** tail) {
+    (*tail)->next = (node *) malloc(sizeof(node));
+    *tail = (*tail)->next;
+    (*tail)->data = word;
 }
 
 char * read_word() {
