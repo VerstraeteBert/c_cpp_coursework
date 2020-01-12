@@ -1,12 +1,14 @@
 #include <stdio.h>
 
 char * shift_left(char row [], size_t size) {
-    size_t i; char temp;
+    if (size <= 0) return row;
+
+    size_t i; char temp = row[0];
     for (i = 0; i < size - 1; i++) {
-        temp = row[i];
         row[i] = row[i + 1];
-        row [i + 1] = temp;
     }
+    row[size - 1] = temp;
+
     return row;
 }
 

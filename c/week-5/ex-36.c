@@ -54,12 +54,14 @@ int main(void) {
 
 double bepaal_max_afst(const punt punten [], size_t aant, double(*afst)(const punt *, const punt *)) {
     if (aant <= 1) return -1;
-    size_t i;
+    size_t i; size_t j;
     double max = afst(&punten[0], &punten[2]);
-    for (i = 1; i < aant - 1; i++) {
-        double huidige_afst = afst(&punten[i], &punten[i+1]);
-        if (max < huidige_afst) {
-            max = huidige_afst;
+    for (i = 0; i < aant - 1; i++) {
+        for (j = i + 1; j < aant; j++) {
+            double huidige_afst = afst(&punten[i], &punten[i+1]);
+            if (max < huidige_afst) {
+                max = huidige_afst;
+            }
         }
     }
     return max;

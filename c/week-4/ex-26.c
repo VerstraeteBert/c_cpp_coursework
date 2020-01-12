@@ -2,12 +2,12 @@
 
 void my_tupper (char * str) {
     if (str[0] >= 'a' && str[0] <= 'z') {
-        str[0] += ('A' - 'a');
+        str[0] = (str[0] - 'a') + 'A';
     }
     int i;
     for (i = 1; str[i] != '\0'; i++) {
         if (str[i] >= 'A' && str[i] <= 'Z') {
-            str[i] += ('a' - 'A');
+            str[i] = (str[i] - 'A') + 'a';
         }
     }
 }

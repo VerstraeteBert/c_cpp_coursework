@@ -55,7 +55,6 @@ node ** return_array_of_lists(size_t num) {
         free(word);
     }
     for (i = 0; i < num; i++) {
-        free(tail_list[i]);
         tail_list[i] = NULL;
     }
 
